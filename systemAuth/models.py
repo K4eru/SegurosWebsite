@@ -1,14 +1,14 @@
 from django.db import models
-from django.db.models.enums import TextChoices
-from django.db.models.fields import TextField
+from django.contrib.auth.models import User
 
 #clienteTypes = ['Administrador', 'Cliente', 'Profesional' ]
 
-class MainCliente(models.Model):
-    userRut = TextField(30)
-    userEmail = TextField(30)
-  #  userType = TextChoices(clienteTypes)
-    
+class commonUserModel(models.Model):
+  
+  user = models.OneToOneField(User, on_delete = models.CASCADE, related_name="extend")  
+  userRut = models.TextField()
+  userType = models.TextField()
 
-
+  def __str__(self):
+      return self.userRut
 
