@@ -1,9 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import commonUserModel
-
-
 
 
 class userForm(forms.ModelForm):
@@ -16,26 +13,12 @@ class userForm(forms.ModelForm):
         }
 
 class mainUserForm(forms.ModelForm):
-    username = forms.EmailInput()
     class Meta:
-        models = userForm
-        fields = ['username']
+        model = User
+        fields = ('username','email','password',)
         labels = {
-            'username': 'Correo',
+            'username': 'Usuario',
+            'email': 'Correo',
+            'password': 'contraseña', #poner widget de contrasena
         } 
-    def init(self, args, **kwargs):
-        super(mainUserForm, self).init(args, **kwargs)
- 
 
-
-
-
-#class UserLoginForm(AuthenticationForm):
-#    def __init__(self, *args, **kwargs):
-#        super(UserLoginForm, self).__init__(*args, **kwargs)
-
-#    username = forms.CharField(widget=forms.TextInput(
-#        attrs={'class': 'form-control', 'placeholder': 'Usuario', 'id': 'hello'}))
-
-#    password = forms.CharField(widget=forms.PasswordInput(
-#        attrs={'class': 'form-control', 'placeholder': 'Contrasena', }))
