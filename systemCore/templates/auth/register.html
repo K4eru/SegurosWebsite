@@ -37,54 +37,110 @@
 
                   {% csrf_token %}
                   
-                  
-
-                  <div class="form-group">
-                    {{ mainForm }}
-                     
-                    {{ form }}
-
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Usuario</label></span>
+                               {{ mainForm.username }}
+                            </div>
+                          </div>
                       </div>
                       
-                    </div>
-                  </div>
-                  <span class="text-error"></span>
-
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Nombre</label></span>
+                            {{ form.userFistName }}
+                          </div>
+                        </div>
                       </div>
-                   
-                    </div>
-                  </div>
-                  <span class="text-error"></span>
 
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Apellido</label></span>
+                            {{ form.userLastName }}
+                          </div>
+                        </div>
                       </div>
-                
-                    </div>
-                  </div>
-                  <span class="text-error"></span>
+                      
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Edad</label></span>
+                            {{ form.userAge }}
+                          </div>
+                        </div>
+                      </div>
 
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Rut</label></span>
+                            {{ form.userRut }}
+                          </div>
+                        </div>
                       </div>
-                    
-                    </div>
+
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Correo</label></span>
+                            {{ mainForm.email }}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Numero Telefono</label></span>
+                            {{ form.userPhoneNumber }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Direccion</label></span>
+                            {{ form.userAddress }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario</label></span>
+                            {{ form.userType}}
+                          </div>
+                        </div>
+                      </div>          
+
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i>&nbsp;&nbsp;<label>Contraseña</label></span>
+                            {{ mainForm.password }}
+                          </div>
+                        </div>
+                      </div>
+
+                      
+
+                                  
+                    </div>                  
                   </div>
-                  <span class="text-error"></span>
+
+                 
 
                   <div class="row my-4">
+                    
                     <div class="col-12">
+                      
                       <div class="custom-control custom-control-alternative custom-checkbox">
                         <input class="custom-control-input" id="customCheckRegister" type="checkbox">
                         <label class="custom-control-label" for="customCheckRegister">
@@ -103,16 +159,6 @@
             </div>
           </div>
 
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-3"></div>
-        <div class="col-3">
-          <a href="#" class="text-light"><small>Login</small></a>
-        </div>
-        <div class="col-3 text-right">
-          <a href="https://appseed.us/support" class="text-light"><small>Get Support</small></a>
         </div>
       </div>
 
