@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 def home(request):
 	return render(request, template_name= "layouts/base.html")
 
+
+
 def request_login(request):
 	if request.method == "POST":
 		form = UserLoginForm(request, data=request.POST)
@@ -51,7 +53,7 @@ def register_user(request):
 	
 	context = {}
 	context['mainForm'] = mainUserForm
-	context['form'] = userForm
+	context['form'] = userForm(initial={})
 
 	return render(request, template_name='auth/register.html', context= context)
 		

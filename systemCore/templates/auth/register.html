@@ -21,13 +21,6 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
-                        {{ message }}
-                    </div>
-                {% endfor %} 
               
               </div>
 
@@ -37,118 +30,106 @@
 
                   {% csrf_token %}
                   
-                  <div class="row">
                     <div class="form-group">
                       <div class="form-group">
-                        <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                             <div class="input-group-prepend">
-                               <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Usuario</label></span>
-                               {{ mainForm.username }}
+                               <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;&nbsp;<label>Usuario</label></span>
                             </div>
+                            {{ mainForm.username }}
                           </div>
                       </div>
                       
                       <div class="form-group">
-                        <div class="input-group input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Nombre</label></span>
-                            {{ form.userFistName }}
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
+                          <div class="input-group-prepend">                      
+                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Nombre</label></span>
                           </div>
+                          {{ form.userFirstName }}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Apellido</label></span>
-                            {{ form.userLastName }}
+                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Apellido</label></span>
                           </div>
+                          {{ form.userLastName }}
                         </div>
                       </div>
                       
                       <div class="form-group">
-                        <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Edad</label></span>
-                            {{ form.userAge }}
+                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Edad</label></span>
+                           
                           </div>
+                          {{ form.userAge }}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Rut</label></span>
-                            {{ form.userRut }}
+                           
                           </div>
+                          {{ form.userRut }}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Correo</label></span>
-                            {{ mainForm.email }}
+                            
                           </div>
+                          {{ mainForm.email }}
                         </div>
                       </div>
                       
                       <div class="form-group">
-                        <div class="input-group input-group-alternative">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Numero Telefono</label></span>
-                            {{ form.userPhoneNumber }}
+                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Numero Telefono</label></span>
+                           
                           </div>
+                          {{ form.userPhoneNumber }}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Direccion</label></span>
-                            {{ form.userAddress }}
+                            <span class="input-group-text"><i class="ni ni-square-pin"></i>&nbsp;&nbsp;<label>Direccion</label></span>
+                            
                           </div>
+                          {{ form.userAddress }}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative">
+                        <div class="input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario</label></span>
+                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario</label></span>                 
+                          </div>
+                          <div class="float-right">
                             {{ form.userType}}
-                          </div>
-                        </div>
+                          </div>                      
+                        </div>            
                       </div>          
 
                       <div class="form-group">
-                        <div class="input-group input-group-alternative">
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i>&nbsp;&nbsp;<label>Contraseña</label></span>
-                            {{ mainForm.password }}
+                            
                           </div>
+                          {{ mainForm.password }}
                         </div>
-                      </div>
-
-                      
-
-                                  
+                      </div>                           
                     </div>                  
-                  </div>
-
-                 
-
-                  <div class="row my-4">
-                    
-                    <div class="col-12">
-                      
-                      <div class="custom-control custom-control-alternative custom-checkbox">
-                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                        <label class="custom-control-label" for="customCheckRegister">
-                          <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+                    {{ form.isFired}}
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary mt-4" name="register">Create account</button>
                   </div>
