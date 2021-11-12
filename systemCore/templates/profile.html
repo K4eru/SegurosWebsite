@@ -12,10 +12,7 @@
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white"> 
-          Bienvenido {{ request.user.username }}
-        </h1>
- 
+
       </div>
     </div>
   </div>
@@ -52,18 +49,17 @@
            
             <h5 class="h3">
              Usted es un usuario de tipo: 
-             {{ userExtend.userAge }}
+             {% if userExtend.userType == 1 %}
+                  Cliente
+              {% else %}
+                  Profesional
+              {% endif %}
             </h5>
            
             <div class="h5 font-weight-300">
-              {{ request.user.email }}
+              Correo : {{ request.user.email }}
             </div>
-            <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-            </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>University of Computer Science
-            </div>
+            
           </div>
         </div>
       </div>
@@ -88,30 +84,55 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     
-                    <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}">
+                    <label class="form-control-label" for="input-username">Nombre de usuario</label>
+                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}" disabled>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" class="form-control" placeholder="{{ request.user.email }}">
+                    <label class="form-control-label" for="input-email">Correo Electronico</label>
+                    <input type="email" id="input-email" class="form-control" value="{{ request.user.email }}" disabled>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">First name</label>
-                    <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Lucky">
+                    <label class="form-control-label" for="input-first-name">Nombre</label>
+                    <input type="text" id="input-first-name" class="form-control"  value="{{ userExtend.userFirstName }}" disabled>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Jesse">
+                    <label class="form-control-label" for="input-last-name">Apellido</label>
+                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.userLastName }}" disabled>
                   </div>
                 </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Edad</label>
+                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.userAge }}" disabled>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Numero Telefono</label>
+                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.userPhoneNumber }}" disabled>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Direccion</label>
+                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.userAddress }}" disabled>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Rut</label>
+                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.userRut }}" disabled>
+                  </div>
+                </div>
+                
               </div>
             </div>
             <hr class="my-4" />

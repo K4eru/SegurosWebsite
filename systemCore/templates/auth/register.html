@@ -21,7 +21,12 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-              
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">
+                        <a class="close" href="{% url 'request_register' %}" data-dismiss="alert">×</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
               </div>
 
               {% if not success %}
@@ -34,7 +39,7 @@
                       <div class="form-group">
                         <div class="input-group input-group-merge input-group-alternative mb-3">
                             <div class="input-group-prepend">
-                               <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;&nbsp;<label>Usuario</label></span>
+                               <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;&nbsp;<label>Nombre usuario</label></span>
                             </div>
                             {{ mainForm.username }}
                           </div>
@@ -111,11 +116,27 @@
                       <div class="form-group">
                         <div class="input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario</label></span>                 
+                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario</label></span>  
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            {{ form.userType}}            
                           </div>
-                          <div class="float-right">
-                            {{ form.userType}}
-                          </div>                      
+                                                
                         </div>            
                       </div>          
 

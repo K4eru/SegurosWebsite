@@ -5,7 +5,9 @@ from django.contrib import messages
 from .forms import mainUserForm, userForm, UserLoginForm
 from . import models
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='request_login')
 def home(request):
 	return render(request, template_name= "layouts/base.html")
 
@@ -46,7 +48,7 @@ def register_user(request):
 
 				messages.success(request , "El usuario se creo exitosamente")
 				
-				return redirect('request_register')
+				return redirect('request_login')
 			else:
 				messages.error(request, "El usuario no se pudo crear")
 				return redirect('request_register')

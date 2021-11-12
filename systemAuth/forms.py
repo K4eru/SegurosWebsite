@@ -17,14 +17,16 @@ class paymentForm(forms.Form):
         'paymentType': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}),
     }
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class orderForm(forms.Form):
     userID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de usuario")
     orderType = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="Tipo de orden")
-    #nextPayment = forms.DateInput(widget = widgets.DateTimeInput(format)) # widget= forms.DateTimeInput() , label="Fecha proximo pago"
+    nextPayment = forms.DateField(widget = DateInput()) 
     amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control form control-alternative'}), label="plata")
     employeeID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de empleado")
-  #  dateVisit = forms.DateTimeInput ()#widget=forms.DateTimeInput(), label="fecha visita"
+    dateVisit = forms.DateField(widget = DateInput())
     orderDescription = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="orden description")
 
 
@@ -37,14 +39,7 @@ class orderForm(forms.Form):
             'dateVisit': 'Fecha visita',
             'orderDescription': 'Descripcion',
     }
-    widgets = {
-            'orderType': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'nextPayment': forms.DateTimeInput(attrs={'class': 'form-control form control-alternative'}),
-            #'amount': forms.NumberInput(attrs={'class': 'form-control form control-alternative'}),
-            'employeeID': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'dateVisit': forms.DateTimeInput(attrs={'class': 'form-control form control-alternative'}),
-            'orderDescription': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-    }
+
 
 
 

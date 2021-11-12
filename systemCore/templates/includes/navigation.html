@@ -43,7 +43,7 @@
               </span>
               <div class="media-body  ml-2  d-none d-lg-block">
                 <span class="mb-0 text-sm  font-weight-bold">
-                  {{ request.user.username }}
+                 Hola  {{ request.user.username }} !
                 </span>
               </div>
             </div>
@@ -54,12 +54,9 @@
             </div>
             <a href="{% url 'profile_details' %}" class="dropdown-item">
               <i class="ni ni-single-02"></i>
-              <span>My profile</span>
+              <span>Mi Perfil</span>
             </a>
-            <a target="_blank" href="http://appseed.us/support" class="dropdown-item">
-              <i class="ni ni-support-16"></i>
-              <span>Support</span>
-            </a>
+            
             <div class="dropdown-divider"></div>
             <a href="{% url 'logout' %}" class="dropdown-item">
               <i class="ni ni-user-run text-red"></i>

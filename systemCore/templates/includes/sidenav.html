@@ -16,10 +16,15 @@
               <i class="ni ni-tv-2 text-primary"></i>
               <span class="nav-link-text">Dashboard</span>
             </a>
-          </li>
-          
-                    
+          </li>   
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'order' %}">
+              <i class="ni ni-key-25 text-info"></i>
+              <span class="nav-link-text">Registrar Orden</span>
+            </a>
+          </li>   
         </ul>
+        
         <!-- Divider 
         <hr class="my-3">
          Heading 
@@ -31,7 +36,7 @@
         <ul class="navbar-nav mb-md-3">
           
           <li class="nav-item">
-            <a class="nav-link active active-pro" href="">
+            <a class="nav-link active active-pro" href="{% url 'logout' %}">
               <i class="ni ni-user-run text-red"></i>
               <span class="nav-link-text">Logout</span>
             </a>
