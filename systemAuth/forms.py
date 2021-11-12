@@ -3,7 +3,7 @@ from django import forms
 from django.db.models import fields
 from django.forms import widgets
 from django.forms.fields import CharField
-from .models import commonUserModel
+from .models import commonUserModel, company
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -40,28 +40,22 @@ class orderForm(forms.Form):
             'orderDescription': 'Descripcion',
     }
 
-
-
-
 class userForm(forms.ModelForm):
     class Meta:
         model = commonUserModel
-        fields = ('userFirstName','userLastName','userAge','userPhoneNumber','userAddress','userRut','userType',)
+        fields = ('userFirstName','userLastName','userPhoneNumber','userRut','userType','company')
         labels = {
             'userFirstName': 'Nombre',
             'userLastName': 'Apellido',
-            'userAge': 'Edad',
             'userPhoneNumber': 'Numero de Celular',
-            'userAddress': 'Direccion',
             'userRut': 'Rut',
             'userType': 'Tipo Usuario',
+            'company': 'Compania'
         }
         widgets = {
-            'userFirstName': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'userFirstName': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
             'userLastName': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'userAge': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
             'userPhoneNumber': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'userAddress': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
             'userRut': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
             'userType': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}),
         }
@@ -84,6 +78,8 @@ class mainUserForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control form control-alternative'}),
         }
 
+
+
 class UserLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(UserLoginForm, self).__init__(*args, **kwargs)
@@ -93,3 +89,27 @@ class UserLoginForm(AuthenticationForm):
 
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Contrasena', }))
+
+
+responsables = commonUserModel.get_responsables()
+RESPONSABLES_CHOICES = []
+
+for res in responsables:
+    RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'userFirstName'))))
+
+class companyForm(forms.ModelForm):
+    class Meta:
+        model = company
+        fields = ('name','description','responsable', 'userAddress')
+        labels = {
+            'name': 'Nombre',
+            'description': 'Descripcion',
+            'responsable': 'Responsable',
+            'userAddress': 'Direccion'
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
+            'description': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'responsable': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
+            'userAddress': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+        }

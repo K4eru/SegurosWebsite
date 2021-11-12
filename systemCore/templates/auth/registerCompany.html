@@ -41,7 +41,7 @@
                             <div class="input-group-prepend">
                                <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;&nbsp;<label>Nombre usuario</label></span>
                             </div>
-                            {{ mainForm.username }}
+                            {{ form.name }}
                           </div>
                       </div>
                       
@@ -50,51 +50,9 @@
                           <div class="input-group-prepend">                      
                             <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label for="fn">Nombre</label></span>
                           </div>
-                          {{ form.userFirstName }}
+                          {{ form.description }}
                         </div>
                       </div>
-
-                      <div class="form-group">
-                        <div class="input-group input-group-merge input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Apellido</label></span>
-                          </div>
-                          {{ form.userLastName }}
-                        </div>
-                      </div>
-                      
-
-                      <div class="form-group">
-                        <div class="input-group input-group-merge input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-atom"></i>&nbsp;&nbsp;<label>Rut</label></span>
-                           
-                          </div>
-                          {{ form.userRut }}
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <div class="input-group input-group-merge input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-email-83"></i>&nbsp;&nbsp;<label>Correo</label></span>
-                            
-                          </div>
-                          {{ mainForm.email }}
-                        </div>
-                      </div>
-                      
-                      <div class="form-group">
-                        <div class="input-group input-group-merge input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-single-02"></i>&nbsp;&nbsp;<label>Numero Telefono</label></span>
-                           
-                          </div>
-                          {{ form.userPhoneNumber }}
-                        </div>
-                      </div>
-
-                      
 
                       <div class="form-group">
                         <div class="input-group-merge input-group-alternative mb-3">
@@ -117,53 +75,25 @@
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            {{ form.company}}            
+                            {{ form.responsable}}            
                           </div>
                                                 
                         </div>            
                       </div>          
 
                       <div class="form-group">
-                        <div class="input-group-merge input-group-alternative mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-hat-3"></i>&nbsp;&nbsp;<label>Tipo de Usuario </label></span>  
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            {{ form.userType}}            
-                          </div>
-                                                
-                        </div>            
-                      </div>      
-
-
-                      <div class="form-group">
                         <div class="input-group input-group-merge input-group-alternative mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i>&nbsp;&nbsp;<label>Contraseña</label></span>
                           </div>
-                          {{ mainForm.password }}
+                          {{ form.userAddress }}
                         </div>
                       </div> 
                       
                       
                     </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary mt-4" name="register">Create account</button>
+                    <button type="submit" class="btn btn-primary mt-4" name="registerCompany">Create account</button>
                   </div>
                 </form>
 
@@ -174,7 +104,7 @@
 
         </div>
       </div>
-      <a href=" {% url 'registerCompany' %} ">quieres registrar una compania?</a>
+      <a href="{% url 'registerUser' %}">quieres registrar un usuario?</a>
     </div>
   </div>
 
