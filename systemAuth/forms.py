@@ -1,8 +1,5 @@
 from django.contrib.auth.models import User
 from django import forms
-from django.db.models import fields
-from django.forms import widgets
-from django.forms.fields import CharField
 from .models import commonUserModel, company
 from django.contrib.auth.forms import AuthenticationForm
 
