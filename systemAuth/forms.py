@@ -87,12 +87,14 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Contrasena', }))
 
-
-responsables = commonUserModel.get_responsables()
 RESPONSABLES_CHOICES = []
 
-for res in responsables:
-    RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'userFirstName'))))
+try:
+    responsables = commonUserModel.get_responsables()
+    for res in responsables:
+        RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'userFirstName'))))
+except:
+    print("No hay usuarios responsables aun")
 
 class companyForm(forms.ModelForm):
     class Meta:
