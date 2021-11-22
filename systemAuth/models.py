@@ -16,7 +16,7 @@ class commonUserModel(models.Model):
     disabled = models.BooleanField(default = False)
     
     def __str__(self):
-        return self.userRut
+        return self.rut
 
     def getUserExtended(userID):
         return commonUserModel.objects.get(id = userID)
@@ -29,7 +29,7 @@ class commonUserModel(models.Model):
 class company(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    responsable = models.IntegerField()
+    # responsable = models.IntegerField()
     address = models.CharField(max_length=50)
 
     def __str__(self):
@@ -41,5 +41,15 @@ class company(models.Model):
     def get_company(id):
         return company.objects.get(id=id)
 
-        
-        
+
+
+class training(models.Model):
+    name=models.CharField(max_length=100)
+    professionalAssigned = models.IntegerField()
+    client1 = models.IntegerField()
+    client2 = models.IntegerField()
+    client3 = models.IntegerField()
+    date = models.DateField()
+
+    def __str__(self):
+        return self.name

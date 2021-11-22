@@ -56,7 +56,7 @@ def register_user(request):
 
 				messages.success(request , "El usuario se creo exitosamente")
 				
-				return redirect('request_login')
+				return redirect('registerUser')
 			else:
 				messages.error(request, "El usuario no se pudo crear")
 				return redirect('registerUser')
@@ -76,10 +76,15 @@ def register_company(request):
 		if "registerCompany" in request.POST:
 			form = companyForm(request.POST)
 			if form.is_valid():
-				company = models.company(name=form.cleaned_data['name'],description=form.cleaned_data['description'],responsable=form.cleaned_data['responsable'],userAddress=form.cleaned_data['userAddress'])
+				company = models.company(name=form.cleaned_data['name'],description=form.cleaned_data['description'],address=form.cleaned_data['address'])
 				company.save()
+				messages.success(request , "La compañia se creo exitosamente")
+				return redirect('registerCompany')
+			else:
+				messages.error(request, "La compañia no se pudo crear")
+				return redirect('registerCompany')
 
-	
+
 	context = {}
 	context['form'] = companyForm
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
-from .models import commonUserModel, company
+
+from .models import commonUserModel, company , training
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -97,23 +98,35 @@ try:
 except:
     print("No hay usuarios responsables aun")
 
-
-
-
-
 class companyForm(forms.ModelForm):
     class Meta:
         model = company
-        fields = ('name','description','responsable', 'address')
+        fields = ('name','description', 'address')
         labels = {
             'name': 'Nombre',
             'description': 'Descripcion',
-            'responsable': 'Responsable',
+          #  'responsable': 'Responsable',
             'address': 'Direccion'
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
             'description': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'responsable': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
+         #   'responsable': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
             'address': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+        }
+
+class trainingForm(forms.ModelForm):
+    class Meta:
+        model = training
+        fields = ('name','professionalAssigned','client1','client2','client3','date')
+        labels = {
+            'name': 'Nombre Capacitacion',
+            'professionalAssigned': 'Profesional Asignado',
+            'client1': 'Cliente 1',
+            'client2': 'Cliente 2',
+            'client3': 'Cliente 3',
+            'date': 'Fecha Capacitacion',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
         }

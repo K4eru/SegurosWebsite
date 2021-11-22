@@ -1,10 +1,11 @@
 from django.urls import path
 from systemAuth.views import home
-from .views import  register_order , submit_Order
+from .views import  update_profile , submit_Order , submit_training
 
 urlpatterns = [
     path('', home, name ='home'),
-    path('profile', register_order, name ='profile_details'),
-    path('submit-order', submit_Order, name ='order')
+    path('profile', update_profile, name ='profile_details'),
+    path('submit-order', submit_Order, name ='order'),
+    path('submit-training', submit_training, name='submit-training'),
 
 ]
