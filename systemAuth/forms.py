@@ -40,21 +40,22 @@ class orderForm(forms.Form):
 class userForm(forms.ModelForm):
     class Meta:
         model = commonUserModel
-        fields = ('userFirstName','userLastName','userPhoneNumber','userRut','userType','company')
+        fields = ('firstName','lastName','phoneNumber','rut','userType','company')
         labels = {
-            'userFirstName': 'Nombre',
-            'userLastName': 'Apellido',
-            'userPhoneNumber': 'Numero de Celular',
-            'userRut': 'Rut',
+            'firstName': 'Nombre',
+            'lastName': 'Apellido',
+            'phoneNumber': 'Numero de Celular',
+            'rut': 'Rut',
             'userType': 'Tipo Usuario',
             'company': 'Compania'
         }
         widgets = {
-            'userFirstName': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
-            'userLastName': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'userPhoneNumber': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-            'userRut': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'firstName': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
+            'lastName': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'phoneNumber': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
             'userType': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}),
+            'company': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}),
         }
 
 class mainUserForm(forms.ModelForm):
@@ -96,19 +97,23 @@ try:
 except:
     print("No hay usuarios responsables aun")
 
+
+
+
+
 class companyForm(forms.ModelForm):
     class Meta:
         model = company
-        fields = ('name','description','responsable', 'userAddress')
+        fields = ('name','description','responsable', 'address')
         labels = {
             'name': 'Nombre',
             'description': 'Descripcion',
             'responsable': 'Responsable',
-            'userAddress': 'Direccion'
+            'address': 'Direccion'
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control form control-alternative', 'id':'fn'}),
             'description': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
             'responsable': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
-            'userAddress': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'address': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
         }

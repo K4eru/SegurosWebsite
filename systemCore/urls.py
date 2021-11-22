@@ -1,6 +1,6 @@
 from django.urls import path
 from systemAuth.views import home
-from .views import register, register_order , submit_Order
+from .views import  register_order , submit_Order
 
 urlpatterns = [
     path('', home, name ='home'),

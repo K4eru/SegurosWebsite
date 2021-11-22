@@ -6,10 +6,7 @@ from systemAuth.models import commonUserModel
 from django.contrib.auth.models import User
 import requests, json
 # Create your views here.
-
-def register(request):
-	return render(request, template_name= "profile.html" )
-
+	
 def submit_Order(request):
 	if request.method == "POST":
 		if "registerOrder" in request.POST:

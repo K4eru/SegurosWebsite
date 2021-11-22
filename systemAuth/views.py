@@ -49,8 +49,8 @@ def register_user(request):
 				user = User.objects.create_user(mainForm.cleaned_data['username'],mainForm.cleaned_data['email'],mainForm.cleaned_data['password'])
 				user.save()
 
-				userextended = models.commonUserModel(user = user, userFirstName = form.cleaned_data['userFirstName'], userLastName = form.cleaned_data['userLastName'], 
-				userPhoneNumber = form.cleaned_data['userPhoneNumber'], userRut = form.cleaned_data['userRut'], 
+				userextended = models.commonUserModel(user = user, firstName = form.cleaned_data['firstName'], lastName = form.cleaned_data['lastName'], 
+				phoneNumber = form.cleaned_data['phoneNumber'], rut = form.cleaned_data['rut'], 
 				userType = form.cleaned_data['userType'], company = form.cleaned_data['company'])
 				userextended.save()
 

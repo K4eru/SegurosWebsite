@@ -8,10 +8,10 @@ CLIENT_TYPES = ((0, 'Cliente' ),
 class commonUserModel(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name="extend")
     company = models.ForeignKey('company', on_delete = models.CASCADE)
-    userFirstName = models.CharField(max_length=30)
-    userLastName = models.CharField(max_length=30)
-    userPhoneNumber = models.CharField(max_length=20)
-    userRut = models.CharField(max_length=20, unique= True)
+    firstName = models.CharField(max_length=30)
+    lastName = models.CharField(max_length=30)
+    phoneNumber = models.CharField(max_length=20)
+    rut = models.CharField(max_length=20, unique= True)
     userType = models.IntegerField(choices=CLIENT_TYPES, default=1)
     disabled = models.BooleanField(default = False)
     
@@ -30,7 +30,7 @@ class company(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     responsable = models.IntegerField()
-    userAddress = models.CharField(max_length=50)
+    address = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
