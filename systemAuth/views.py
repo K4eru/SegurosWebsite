@@ -4,12 +4,15 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import companyForm, mainUserForm, userForm, UserLoginForm
 from . import models
+from systemAuth.models import commonUserModel
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='request_login')
 def home(request):
-	return render(request, template_name= "layouts/base.html")
+	context = {}
+	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
+	return render(request, template_name= "layouts/base.html", context=context)
 
 
 
@@ -45,8 +48,11 @@ def register_user(request):
 			mainForm = mainUserForm(request.POST)
 			form = userForm(request.POST)
 			if mainForm.is_valid() and form.is_valid():
-
+			 	 
 				user = User.objects.create_user(mainForm.cleaned_data['username'],mainForm.cleaned_data['email'],mainForm.cleaned_data['password'])
+				if form.cleaned_data['userType'] == 2:
+					user.is_superuser = True
+					user.is_staff = True
 				user.save()
 
 				userextended = models.commonUserModel(user = user, firstName = form.cleaned_data['firstName'], lastName = form.cleaned_data['lastName'], 
@@ -64,7 +70,7 @@ def register_user(request):
 	context = {}
 	context['mainForm'] = mainUserForm
 	context['form'] = userForm(initial={})
-
+	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request, template_name='auth/register.html', context= context)
 
 
@@ -87,6 +93,6 @@ def register_company(request):
 
 	context = {}
 	context['form'] = companyForm
-
+	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request, template_name='auth/registerCompany.html', context= context)
 		

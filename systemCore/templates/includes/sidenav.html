@@ -16,31 +16,41 @@
               <i class="ni ni-tv-2 text-primary"></i>
               <span class="nav-link-text">Dashboard</span>
             </a>
-          </li>   
+          </li> 
+
+          {% if request.user.extend.userType == 2   %}
+           <li class="nav-item">
+             <a class="nav-link" href="{% url 'registerUser' %}">
+               <i class="ni ni-single-02 text-yellow"></i>
+               <span class="nav-link-text">Registrar Usuario</span>
+             </a>
+            </li> 
+           <li class="nav-item">
+              <a class="nav-link" href="{% url 'registerCompany' %}">
+                <i class="ni ni-building text-green"></i>
+               <span class="nav-link-text">Registrar Compañia</span>
+              </a>
+            </li>
+          {% endif %}   
+          {% if request.user.extend.userType == 1 %}
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'submit-training' %}">
+               <i class="ni ni-time-alarm text-blue"></i>
+                <span class="nav-link-text">Registrar Capacitacion</span>
+              </a>
+          </li>  
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'order' %}">
               <i class="ni ni-key-25 text-info"></i>
               <span class="nav-link-text">Registrar Orden</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'registerUser' %}">
-              <i class="ni ni-single-02 text-yellow"></i>
-              <span class="nav-link-text">Registrar Usuario</span>
-            </a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'registerCompany' %}">
-              <i class="ni ni-building text-green"></i>
-              <span class="nav-link-text">Registrar Compañia</span>
-            </a>
-          </li>   
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'submit-training' %}">
-              <i class="ni ni-time-alarm text-blue"></i>
-              <span class="nav-link-text">Registrar Capacitacion</span>
-            </a>
-          </li>  
+          {% endif %}
+
+         
+          
+         
         </ul>
         
         <!-- Divider 
@@ -52,7 +62,7 @@
         
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
-          
+           
           <li class="nav-item">
             <a class="nav-link active active-pro" href="{% url 'logout' %}">
               <i class="ni ni-user-run text-red"></i>

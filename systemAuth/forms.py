@@ -89,14 +89,7 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Contrasena', }))
 
-RESPONSABLES_CHOICES = []
 
-try:
-    responsables = commonUserModel.get_responsables()
-    for res in responsables:
-        RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'userFirstName'))))
-except:
-    print("No hay usuarios responsables aun")
 
 class companyForm(forms.ModelForm):
     class Meta:
@@ -115,6 +108,24 @@ class companyForm(forms.ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
         }
 
+RESPONSABLES_CHOICES = []
+
+try:
+    responsables = commonUserModel.get_responsables()
+    for res in responsables:
+        RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
+except:
+    print("No hay usuarios responsables aun")
+
+CLIENT_CHOICES = []
+
+try:
+    responsables = commonUserModel.get_clients()
+    for res in responsables:
+        CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
+except:
+    print("No hay usuarios clientes aun")
+
 class trainingForm(forms.ModelForm):
     class Meta:
         model = training
@@ -129,4 +140,9 @@ class trainingForm(forms.ModelForm):
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'professionalAssigned': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
+            'client1': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
+            'client2': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
+            'client3': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
+            'date': forms.TextInput(attrs={'class': 'form-control datepicker','value':'yyyy-MM-dd'}, ),
         }

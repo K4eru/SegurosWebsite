@@ -7,5 +7,5 @@ urlpatterns = [
     path('profile', update_profile, name ='profile_details'),
     path('submit-order', submit_Order, name ='order'),
     path('submit-training', submit_training, name='submit-training'),
-
+    
 ]

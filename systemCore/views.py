@@ -2,8 +2,10 @@ from django.contrib.auth.forms import UserModel
 from django.forms.forms import Form
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from systemAuth import models
+from django.contrib import messages
 from systemAuth.forms import orderForm , userForm , mainUserForm , trainingForm
-from systemAuth.models import commonUserModel
+from systemAuth.models import commonUserModel, training
 from django.contrib.auth.models import User
 import requests, json
 # Create your views here.
@@ -11,25 +13,33 @@ import requests, json
 
 def update_profile(request):  #cambiar nombre vista
 
-	# if request.method == "POST":
-	# 	if "editProfile" in request.POST:
-	# 		mainForm = mainUserForm(request.POST)
-	# 		form = userForm(request.POST)
-	# 		if form.is_valid() and mainForm.is_valid():
+	userID = request.user.id
+	extendedInstance = commonUserModel.getUserExtended(userID)
+
+	initExtend = {'firstName': extendedInstance.firstName,
+				  'lastName': extendedInstance.lastName,
+				  'phoneNumber': extendedInstance.phoneNumber,
+				  'rut': extendedInstance.rut ,
+				  'userType' : extendedInstance.userType,
+				  'company': extendedInstance.company
+	}
+	if request.method == "POST":
+		if "editProfile" in request.POST:
+			mainForm = mainUserForm(request.POST)
+			form = userForm(request.POST, instance=extendedInstance)
+			if form.is_valid() :
+				form.fields['rut'].disabled = True
+				form.save()
+
+				return redirect('profile_details')
+			else:
 				
-	# 			userextended = commonUserModel(firstName = form.cleaned_data['firstName'], lastName = form.cleaned_data['lastName'], 
-	# 			phoneNumber = form.cleaned_data['phoneNumber'], rut = form.cleaned_data['rut'], 
-	# 		 	)
-	# 			userextended.save()
-	# 			return redirect('profile_details')
-	# 		else:
-				
-	# 			return redirect('profile_details')
-	print(request.user.id)
+				return redirect('profile_details')
+
 	context = {}
-	context['form'] = orderForm()
-	context['mainForm'] = commonUserModel()
-	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
+	# context['form'] = orderForm()
+
+	context['mainForm'] = userForm(initial=initExtend)
 
 	return render(request=request, template_name="profile.html",context=context)	
 
@@ -65,10 +75,17 @@ def submit_Order(request):
 def submit_training(request):
 	if request.method == "POST":
 		if "registerTraining" in request.POST:
-			
 			form = trainingForm(request.POST)
-			# if form.is_valid():
-	
+			if form.is_valid():
+				training = models.training(name=form.cleaned_data['name'],professionalAssigned=form.cleaned_data['professionalAssigned'],client1=form.cleaned_data['client1'],client2=form.cleaned_data['client2'],client3=form.cleaned_data['client3'],date=form.cleaned_data['date'])
+				training.save()
+				messages.success(request , "La capacitacion se creo exitosamente")
+				return redirect('submit-training')
+			else:
+				messages.error(request, "La capacitacionno se pudo crear")
+				return redirect('submit-training')
+
 	context = {}
 	context['form'] = trainingForm
+	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request=request, template_name="submit-training.html", context=context)

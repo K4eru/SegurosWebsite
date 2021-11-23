@@ -24,7 +24,9 @@ class commonUserModel(models.Model):
     def get_responsables():
         return commonUserModel.objects.filter(userType = 1)
     
-
+    def get_clients():
+        return commonUserModel.objects.filter(userType = 0)
+    
 
 class company(models.Model):
     name = models.CharField(max_length=100)

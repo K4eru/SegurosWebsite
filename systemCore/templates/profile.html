@@ -48,12 +48,7 @@
            
            
             <h5 class="h3">
-             Usted es un usuario de tipo: 
-             {% if userExtend.userType == 1 %}
-                  Cliente
-              {% else %}
-                  Profesional
-              {% endif %}
+             Bienvenido a tu perfil!
             </h5>
            
             <div class="h5 font-weight-300">
@@ -69,18 +64,19 @@
         <form method="POST">
           {% csrf_token %}
 
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Editar perfil </h3>
-            </div>
-            <div class="col-4 text-right">
-              <button type="submit" class="btn btn-sm btn-primary" name="editProfile"> Guardar cambios</button>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          
+             <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">Editar perfil </h3>
+                  </div>
+                  <div class="col-4 text-right">
+                  <button type="submit" class="btn btn-sm btn-primary" name="editProfile"> Guardar cambios</button>
+                  </div>
+                </div>
+              </div>
+        
+            
+            <div class="card-body">
             <h6 class="heading-small text-muted mb-4">User information</h6>
             <div class="pl-lg-4">
               <div class="row">
@@ -88,50 +84,59 @@
                   <div class="form-group">
                     
                     <label class="form-control-label" for="input-username">Nombre de usuario</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}" disabled>
+                    <input type="text" id="input-username" name="username" class="form-control" placeholder="Username" value="{{ request.user.username }}" >
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name">Rut</label>
-                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.rut }}" disabled>
+                    <div id="poto">
+                      {{ mainForm.rut }} 
+                    </div>
                   </div>
                 </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Compañia asociada</label>
+                    <div id="poto">
+                      {{ mainForm.company }} 
+                    </div>         
+                  </div>
+                </div>
+                 <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Tipo de usuario</label>
+                    <div id="poto">
+                      {{ mainForm.userType }} 
+                    </div>                
+                  </div>
+                </div> 
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Nombre</label>
-                    <input type="text" id="input-first-name" class="form-control"  value="{{ userExtend.firstName }}" >
+                    {{ mainForm.firstName }}
                   </div>
                 </div>
                 
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name">Apellido</label>
-                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.lastName }}" >
+                    {{ mainForm.lastName }}
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-email">Correo Electronico</label>
-                    <input type="email" id="input-email" class="form-control" value="{{ request.user.email }}" >
-                  </div>
-                </div>
+                
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name">Numero Telefono</label>
-                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.phoneNumber }}" >
+                    {{ mainForm.phoneNumber }}
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Direccion</label>
-                    <input type="text" id="input-last-name" class="form-control" value="{{ userExtend.address }}" >
-                  </div>
-                </div>
-               
+
                 
+
+                           
               </div>
             </div>
         
@@ -139,12 +144,18 @@
               </div>
             </div>
       
-          
+          </form> 
         </div>
+        
       </div>
     </div>
   </div>
-
+  <style type="text/css">
+    input[name="rut"], input[name="username"],select[name="company"] , select[name="userType"] {
+      pointer-events: none;
+      /* background-color: lightgray; */
+     }
+   </style>
   {% include "includes/footer.html" %}
 
 </div>
