@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import commonUserModel, company , training
+from .models import commonUserModel, company , training , order
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -15,28 +15,46 @@ class paymentForm(forms.Form):
         'paymentType': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}),
     }
 
-class DateInput(forms.DateInput):
+class DateWidget(forms.DateInput):
     input_type = 'date'
 
-class orderForm(forms.Form):
-    userID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de usuario")
-    orderType = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="Tipo de orden")
-    nextPayment = forms.DateField(widget = DateInput()) 
-    amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control form control-alternative'}), label="plata")
-    employeeID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de empleado")
-    dateVisit = forms.DateField(widget = DateInput())
-    orderDescription = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="orden description")
-
-
-    labels = {
+#class orderForm(forms.Form):
+class orderForm(forms.ModelForm):
+    class Meta:
+        model = order
+        fields = ('userID','type','nextPayment','amount','employeeID','dateVisit','description','improvement')
+        labels = {
             'userID':  'ID usuario',
-            'orderType': 'Tipo de Orden',
+            'type': 'Tipo de Orden',
             'nextPayment': 'Siguiente fecha de pago',
             'amount': 'Monto a pagar',
             'employeeID': 'Profesional Asignado',
             'dateVisit': 'Fecha visita',
-            'orderDescription': 'Descripcion',
-    }
+            'description': 'Descripcion',
+            'improvement': 'Mejora',
+        }
+        widgets = {
+         'userID':  forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'type': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}) ,
+         'nextPayment':DateWidget(),
+         'amount': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'employeeID':forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'dateVisit': DateWidget(),
+         'description': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'improvement': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+        }
+
+    # userID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de usuario")
+    # orderType = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="Tipo de orden")
+    # nextPayment = forms.DateField(widget = DateInput()) 
+    # amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control form control-alternative'}), label="plata")
+    # employeeID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de empleado")
+    # dateVisit = forms.DateField(widget = DateInput())
+    # orderDescription = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="orden description")
+    # improvement = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="orden description")
+
+    
+    
 
 class userForm(forms.ModelForm):
     class Meta:
@@ -144,5 +162,5 @@ class trainingForm(forms.ModelForm):
             'client1': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'client2': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'client3': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
-            'date': forms.TextInput(attrs={'class': 'form-control datepicker','value':'yyyy-MM-dd'}, ),
+            'date': forms.DateInput(),
         }

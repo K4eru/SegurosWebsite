@@ -1,0 +1,77 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<div class="header pb-6 d-flex align-items-center" 
+     style="min-height: 250px; ; background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--6">
+  <div class="row">
+  
+    <div class="col-xl-15 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Estas son las capacitaciones agendadas </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+         
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre capacitacion</th>
+                <th>Profesional Asignado</th>
+                <th>Cliente1</th>
+                <th>cliente2</th>
+                <th>cliente3</th>
+                <th>fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+         
+              {% for instance in queryset %}
+                <tr>
+                  <td>{{ instance.name }}</td>
+                  <td>{{ instance.professionalName }}</td>
+                  <td>{{ instance.client1 }}</td>
+                  <td>{{ instance.client2 }}</td>
+                  <td>{{ instance.client3 }}</td>
+                  <td>{{ instance.date }}</td>
+
+                </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

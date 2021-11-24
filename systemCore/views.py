@@ -4,14 +4,44 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from systemAuth import models
 from django.contrib import messages
-from systemAuth.forms import orderForm , userForm , mainUserForm , trainingForm
+from systemAuth.forms import RESPONSABLES_CHOICES, orderForm , userForm , mainUserForm , trainingForm
 from systemAuth.models import commonUserModel, training
 from django.contrib.auth.models import User
 import requests, json
 # Create your views here.
+
+def show_training(request):
+	userID = request.user.id
+	listTraining = training.objects.all()
+	
 	
 
-def update_profile(request):  #cambiar nombre vista
+	for train in listTraining:
+		professionalInstance = commonUserModel.getUserExtended(train.professionalAssigned)
+		train.professionalName = professionalInstance.firstName+' '+professionalInstance.lastName
+
+		client1Instance = commonUserModel.getUserExtended(train.client1)
+		train.client1 = client1Instance.firstName+' '+client1Instance.lastName
+
+		client2nstance = commonUserModel.getUserExtended(train.client2)
+		train.client2 = client2nstance.firstName+' '+client2nstance.lastName
+
+		client3Instance = commonUserModel.getUserExtended(train.client3)
+		train.client3 = client3Instance.firstName+' '+client3Instance.lastName
+
+
+
+
+
+	context={}
+	context['queryset'] = listTraining
+
+	return render(request,template_name="show-trainings.html", context= context)
+
+
+
+
+def update_profile(request): 
 
 	userID = request.user.id
 	extendedInstance = commonUserModel.getUserExtended(userID)
@@ -50,24 +80,28 @@ def submit_Order(request):
 			
 			form = orderForm(request.POST)
 			if form.is_valid():
-				url = 'http://127.0.0.1:8001/api/order/'
-				payload = { 'userID' : form.cleaned_data["userID"] ,
-						    'orderType' : form.cleaned_data["orderType"] , 
-							#'nextPayment' : form.cleaned_data('nextPayment') ,
-							'amount' : form.cleaned_data["amount"] , 
-							'employeeID' : form.cleaned_data["employeeID"] ,
-						#	'dateVisit' : form.cleaned_data('dateVisit') , 
-							'orderDescription' : form.cleaned_data["orderDescription"]}
-			
-				r = requests.post(url,data= payload)
-				return redirect('profile_details')
+				order = models.order(userID=form.cleaned_data['userID'],type=form.cleaned_data['type'],nextPayment=form.cleaned_data['nextPayment'],amount=form.cleaned_data['amount'],employeeID=form.cleaned_data['employeeID'],dateVisit=form.cleaned_data['dateVisit'],description=form.cleaned_data['description'],improvement=form.cleaned_data['improvement'])
+				order.save()
+				# url = 'http://127.0.0.1:8001/api/order/'
+				# payload = { 'userID' : form.cleaned_data["userID"] ,
+				# 		    'orderType' : form.cleaned_data["orderType"] , 
+				# 			#'nextPayment' : form.cleaned_data('nextPayment') ,
+				# 			'amount' : form.cleaned_data["amount"] , 
+				# 			'employeeID' : form.cleaned_data["employeeID"] ,
+				# 		#	'dateVisit' : form.cleaned_data('dateVisit') , 
+				# 			'orderDescription' : form.cleaned_data["orderDescription"],
+				# 			'improvement' : form.cleaned_data["improvement"]}
+							
+				# r = requests.post(url,data= payload)
+				messages.success(request , "La orden se creo exitosamente")
+				return redirect('order')
 			else:
-				
-				return redirect('profile_details')
+				messages.error(request, "La orden no se pudo crear")
+				return redirect('order')
 	print(request.user.id)
 	context = {}
-	context['order'] = orderForm(initial={'userID': request.user.id})
-	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
+	context['order'] = orderForm #(initial={'userID': request.user.id})
+	#context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	
 	return render(request=request, template_name="submit-order.html",context=context)	
 	

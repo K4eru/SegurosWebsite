@@ -5,6 +5,9 @@ CLIENT_TYPES = ((0, 'Cliente' ),
                 (1, 'Profesional'),
                 (2, 'Admin' ))
 
+ORDER_TYPES = ((0, 'Normal' ),
+                (1, 'Especial'))
+
 class commonUserModel(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name="extend")
     company = models.ForeignKey('company', on_delete = models.CASCADE)
@@ -42,6 +45,20 @@ class company(models.Model):
     
     def get_company(id):
         return company.objects.get(id=id)
+
+class order(models.Model):
+    userID = models.IntegerField()
+    type =  models.IntegerField(choices=ORDER_TYPES, default=1)
+    nextPayment = models.DateField()
+    amount = models.IntegerField()
+    employeeID = models.IntegerField()
+    dateVisit = models.DateField()
+    description = models.TextField()
+    improvement = models.TextField()
+
+    def __str__(self):
+        return self.description
+
 
 
 
