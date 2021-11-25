@@ -1,8 +1,27 @@
 from django.contrib.auth.models import User
 from django import forms
+from django.core.files.base import equals_lf
 
 from .models import commonUserModel, company , training , order
 from django.contrib.auth.forms import AuthenticationForm
+
+RESPONSABLES_CHOICES = []
+
+try:
+    responsables = commonUserModel.get_responsables()
+    for res in responsables:
+        RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
+except:
+    print("No hay usuarios responsables aun")
+
+CLIENT_CHOICES = []
+
+try:
+    responsables = commonUserModel.get_clients()
+    for res in responsables:
+        CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
+except:
+    print("No hay usuarios clientes aun")
 
 
 class paymentForm(forms.Form):
@@ -22,7 +41,7 @@ class DateWidget(forms.DateInput):
 class orderForm(forms.ModelForm):
     class Meta:
         model = order
-        fields = ('userID','type','nextPayment','amount','employeeID','dateVisit','description','improvement')
+        fields = ('userID','type','nextPayment','amount','employeeID','dateVisit','description','improvement','edited')
         labels = {
             'userID':  'ID usuario',
             'type': 'Tipo de Orden',
@@ -32,16 +51,18 @@ class orderForm(forms.ModelForm):
             'dateVisit': 'Fecha visita',
             'description': 'Descripcion',
             'improvement': 'Mejora',
+            'edited': 'Editada'
         }
         widgets = {
-         'userID':  forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'userID':  forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
          'type': forms.Select(attrs={'class': 'btn btn-secondary dropdown-toggle'}) ,
          'nextPayment':DateWidget(),
          'amount': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
-         'employeeID':forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'employeeID':forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
          'dateVisit': DateWidget(),
          'description': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
          'improvement': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+         'edited': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
         }
 
     # userID = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form control-alternative'}), label="ID de usuario")
@@ -126,23 +147,7 @@ class companyForm(forms.ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
         }
 
-RESPONSABLES_CHOICES = []
 
-try:
-    responsables = commonUserModel.get_responsables()
-    for res in responsables:
-        RESPONSABLES_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
-except:
-    print("No hay usuarios responsables aun")
-
-CLIENT_CHOICES = []
-
-try:
-    responsables = commonUserModel.get_clients()
-    for res in responsables:
-        CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
-except:
-    print("No hay usuarios clientes aun")
 
 class trainingForm(forms.ModelForm):
     class Meta:
@@ -162,5 +167,5 @@ class trainingForm(forms.ModelForm):
             'client1': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'client2': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'client3': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
-            'date': forms.DateInput(),
+            'date': DateWidget(),
         }

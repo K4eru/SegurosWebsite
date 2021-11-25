@@ -1,0 +1,99 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<div class="header pb-6 d-flex align-items-center" 
+     style="min-height: 250px; ; background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--6">
+  <div class="row">
+  
+    <div class="col-xl-15 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Estas son tus asesorias agendadas </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+         
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Tipo orden</th>
+                <th>Fecha siguiente pago</th>
+                <th>cantidad a pagar</th>
+                <th>Profesional asignado</th>
+                <th>fecha visita</th>
+                <th>descripcion</th>
+                <th>mejora</th>
+                {% if request.user.extend.userType == 1   %}
+                <th>Editar</th>
+                {% endif %}
+              </tr>
+            </thead>
+            
+            <tbody>
+              
+              {% for instance in queryset %}
+              
+              
+                <tr>
+                  
+                  <td>{{ instance.userID }}</td>
+                  <td>
+                    {% if instance.type == 1 %}
+                        Especial
+                    {% else %}
+                        normal
+                    {% endif %}
+                  </td>
+                  <td>{{ instance.nextPayment }}</td>
+                  <td>{{ instance.amount }}</td>
+                  <td>{{ instance.employeeID }}</td>
+                  <td>{{ instance.dateVisit }}</td>
+                  <td>{{ instance.description }}</td>
+                  <td>{{ instance.improvement }}</td>
+                  {% if request.user.extend.userType == 1   %}
+                  <td>
+                    <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
+                    <i class="ni ni-single-02 text-yellow"></i>
+                  </td>
+                  {%endif%}
+                </tr>
+               
+              {% endfor %}
+            </tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

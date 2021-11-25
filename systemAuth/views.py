@@ -29,7 +29,7 @@ def request_login(request):
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
-				messages.info(request, f"Bienvenido {username}.")
+				
 				return redirect('home')
 			else:
 				messages.error(request,"Contrasena o usuario incorrecto.")

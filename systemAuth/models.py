@@ -48,18 +48,20 @@ class company(models.Model):
 
 class order(models.Model):
     userID = models.IntegerField()
-    type =  models.IntegerField(choices=ORDER_TYPES, default=1)
-    nextPayment = models.DateField()
-    amount = models.IntegerField()
+    type =  models.IntegerField(choices=ORDER_TYPES, default=0)
+    nextPayment = models.DateField(default='1970-01-01')
+    amount = models.IntegerField(default=0)
     employeeID = models.IntegerField()
-    dateVisit = models.DateField()
-    description = models.TextField()
-    improvement = models.TextField()
+    dateVisit = models.DateField(default='1970-01-01')
+    description = models.TextField(blank=True)
+    improvement = models.TextField(blank=True)
+    edited = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.description
+        return str(self.id)
 
-
+    def get_order(id):
+        return order.objects.get(id = id)
 
 
 class training(models.Model):

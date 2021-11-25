@@ -41,8 +41,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">ID Usuario</label>
-                    {{ order.userID   }}
-                   
+                    {{ order.userID }}
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -59,13 +58,7 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Descripcion</label>
-                    {{ order.description }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-last-name"></label>
+                    <label class="form-control-label" for="input-last-name">Fecha Pago</label>
                     {{ order.nextPayment }}
                   </div>
                 </div>
@@ -74,26 +67,31 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name"></label>
+                    <label class="form-control-label" for="input-first-name">Dinero a pagar</label>
                     {{ order.amount }}
                   </div>
                 </div>
                 
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name"></label>
+                    <label class="form-control-label" for="input-last-name">Fecha Visita</label>
                     {{ order.dateVisit }}
                   </div>
                 </div>
-                
-                
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name"></label>
-                    {{ order.improvement }}
+                    <label class="form-control-label" for="input-last-name">Descripcion</label>
+                    {{ order.description }}
                   </div>
                 </div>
                 
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Posibles mejoras</label>
+                    {{ order.improvement }}
+                  </div>
+                </div>
+
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name"></label>
@@ -103,7 +101,7 @@
               </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4" name="registerOrder">Create order</button>
+                <button type="submit" class="btn btn-primary mt-4" name="editOrder">Create order</button>
               </div>
           </form>
            
@@ -112,17 +110,16 @@
     </div>
   </div>
   <style type="text/css">
-    select[name="userID"] {
+    select[name="userID"],select[name="type"],select[name="employeeID"] {
       pointer-events: none;
        background-color: lightgray; 
      }
    </style>
   <style type="text/css">
-    select[name="nextPayment"],[name="amount"],[name="dateVisit"],[name="improvement"],[name="nextPayment"],[name="edited"] {
+    select[name="edited"],[name="edited"] {
     display: none;
    }
   </style>
-
   {% include "includes/footer.html" %}
 
 </div>

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from systemAuth import models
 from django.contrib import messages
 from systemAuth.forms import RESPONSABLES_CHOICES, orderForm , userForm , mainUserForm , trainingForm
-from systemAuth.models import commonUserModel, training
+from systemAuth.models import commonUserModel, training , order
 from django.contrib.auth.models import User
 import requests, json
 # Create your views here.
@@ -30,14 +30,61 @@ def show_training(request):
 		train.client3 = client3Instance.firstName+' '+client3Instance.lastName
 
 
-
-
-
 	context={}
 	context['queryset'] = listTraining
 
 	return render(request,template_name="show-trainings.html", context= context)
 
+def show_order(request):
+	idUser = request.user.id
+	listOrder = order.objects.filter(employeeID = idUser)
+	if not listOrder:
+		listOrder = order.objects.filter(userID = idUser)
+
+	for aux in listOrder:
+		profInstance = commonUserModel.getUserExtended(aux.employeeID)
+		aux.employeeID = profInstance.firstName+' '+profInstance.lastName
+
+		userInstance = commonUserModel.getUserExtended(aux.userID)
+		aux.userID = userInstance.firstName+' '+userInstance.lastName
+
+	context={}
+	context['queryset'] = listOrder
+
+	return render(request,template_name="show-orders.html", context= context)
+
+def update_order(request,order_pk): 
+
+	id = order_pk
+	extendedInstance = order.get_order(id)
+
+	initExtend = {'userID': extendedInstance.userID,
+				  'type': extendedInstance.type,
+				  'nextPayment': extendedInstance.nextPayment,
+				  'amount': extendedInstance.amount ,
+				  'employeeID' : extendedInstance.employeeID,
+				  'dateVisit': extendedInstance.dateVisit,
+				  'description': extendedInstance.description,
+				  'improvement': extendedInstance.improvement,
+				  'edited': extendedInstance.edited
+	}
+	if request.method == "POST":
+		if "editOrder" in request.POST:
+			form = orderForm(request.POST, instance=extendedInstance)
+			if form.is_valid() :
+				form.fields['userID'].disabled = True
+				form.save()
+
+				return redirect('show_order')
+			else:
+				
+				return redirect('show_order')
+
+	context = {}
+	context['order'] = orderForm(initial=initExtend)
+
+
+	return render(request=request, template_name="edit-order.html", context= context)	
 
 
 
@@ -80,7 +127,7 @@ def submit_Order(request):
 			
 			form = orderForm(request.POST)
 			if form.is_valid():
-				order = models.order(userID=form.cleaned_data['userID'],type=form.cleaned_data['type'],nextPayment=form.cleaned_data['nextPayment'],amount=form.cleaned_data['amount'],employeeID=form.cleaned_data['employeeID'],dateVisit=form.cleaned_data['dateVisit'],description=form.cleaned_data['description'],improvement=form.cleaned_data['improvement'])
+				order = models.order(userID=form.cleaned_data['userID'],type=form.cleaned_data['type'],nextPayment=form.cleaned_data['nextPayment'],amount=form.cleaned_data['amount'],employeeID=form.cleaned_data['employeeID'],dateVisit=form.cleaned_data['dateVisit'],description=form.cleaned_data['description'],improvement=form.cleaned_data['improvement'],edited=form.cleaned_data['edited'])
 				order.save()
 				# url = 'http://127.0.0.1:8001/api/order/'
 				# payload = { 'userID' : form.cleaned_data["userID"] ,
@@ -100,7 +147,7 @@ def submit_Order(request):
 				return redirect('order')
 	print(request.user.id)
 	context = {}
-	context['order'] = orderForm #(initial={'userID': request.user.id})
+	context['order'] = orderForm(initial={'userID': request.user.id})
 	#context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	
 	return render(request=request, template_name="submit-order.html",context=context)	
@@ -120,6 +167,6 @@ def submit_training(request):
 				return redirect('submit-training')
 
 	context = {}
-	context['form'] = trainingForm
+	context['form'] = trainingForm(initial={'professionalAssigned': request.user.id})
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request=request, template_name="submit-training.html", context=context)
