@@ -60,6 +60,9 @@ class order(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def get_all_orders():
+        return order.objects.all()
+
     def get_order(id):
         return order.objects.get(id = id)
 
@@ -74,3 +77,21 @@ class training(models.Model):
 
     def __str__(self):
         return self.name
+
+class checklist(models.Model):
+    orderID = models.OneToOneField(order, on_delete = models.CASCADE, related_name="extend")
+    title= models.CharField(max_length=100)
+    professionalAssigned = models.IntegerField()
+    question1 = models.CharField(max_length=100)
+    answer1 = models.CharField(max_length=100)
+    question2 = models.CharField(max_length=100)
+    answer2 = models.CharField(max_length=100)
+    question3 = models.CharField(max_length=100)
+    answer3 = models.CharField(max_length=100)
+    question4 = models.CharField(max_length=100)
+    answer4 = models.CharField(max_length=100)
+    question5 = models.CharField(max_length=100)
+    answer5 = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title

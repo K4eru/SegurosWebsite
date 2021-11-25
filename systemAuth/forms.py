@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.core.files.base import equals_lf
 
-from .models import commonUserModel, company , training , order
+from .models import commonUserModel, company , training , order , checklist
 from django.contrib.auth.forms import AuthenticationForm
 
 RESPONSABLES_CHOICES = []
@@ -22,6 +22,16 @@ try:
         CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
 except:
     print("No hay usuarios clientes aun")
+
+
+ORDER_CHOICES = []
+
+try:
+    responsables = order.get_all_orders()
+    for res in responsables:
+        CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'id'))))
+except:
+    print("No hay ordenes clientes aun")
 
 
 class paymentForm(forms.Form):
@@ -168,4 +178,40 @@ class trainingForm(forms.ModelForm):
             'client2': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'client3': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=CLIENT_CHOICES),
             'date': DateWidget(),
+        }
+
+class checklistForm(forms.ModelForm):
+    class Meta:
+        model = checklist
+        fields = ('orderID','title','professionalAssigned','question1','answer1','question2','answer2','question3','answer3','question4','answer4','question5','answer5')
+        labels = {
+            'orderID': 'Orden asociada',
+            'title': 'Titulo',
+            'professionalAssigned': 'Profesional Asignado',
+            'question1': 'Pregunta 1',
+            'answer1': 'Respuesta 1',
+            'question2': 'Pregunta 2',
+            'answer2': 'Respuesta 2',
+            'question3': 'Pregunta 3',
+            'answer3': 'Respuesta 3',
+            'question4': 'Pregunta 4',
+            'answer4': 'Respuesta 4',
+            'question5': 'Pregunta 5',
+            'answer5': 'Respuesta 5',
+
+        }
+        widgets = {
+            'orderID': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=ORDER_CHOICES),
+            'title': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'professionalAssigned': forms.Select(attrs={'class': 'form-control form control-alternative'}, choices=RESPONSABLES_CHOICES),
+            'question1': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'answer1': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'question2': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'answer2': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'question3': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'answer3': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'question4': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'answer4': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'question5': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),
+            'answer5': forms.TextInput(attrs={'class': 'form-control form control-alternative'}),         
         }

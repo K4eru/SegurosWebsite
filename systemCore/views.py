@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from systemAuth import models
 from django.contrib import messages
-from systemAuth.forms import RESPONSABLES_CHOICES, orderForm , userForm , mainUserForm , trainingForm
-from systemAuth.models import commonUserModel, training , order
+from systemAuth.forms import  checklistForm, orderForm , userForm , mainUserForm , trainingForm
+from systemAuth.models import checklist, commonUserModel, training , order
 from django.contrib.auth.models import User
 import requests, json
 # Create your views here.
@@ -170,3 +170,55 @@ def submit_training(request):
 	context['form'] = trainingForm(initial={'professionalAssigned': request.user.id})
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request=request, template_name="submit-training.html", context=context)
+
+def submit_checklist(request):
+	if request.method == "POST":
+		if "registerChecklist" in request.POST:
+			form = checklistForm(request.POST)
+			if form.is_valid():
+				checklist = models.checklist(orderID=form.cleaned_data['orderID'],title=form.cleaned_data['title'],professionalAssigned=form.cleaned_data['professionalAssigned'],
+				question1=form.cleaned_data['question1'],answer1=form.cleaned_data['answer1'],
+				question2=form.cleaned_data['question2'],answer2=form.cleaned_data['answer2'],
+				question3=form.cleaned_data['question3'],answer3=form.cleaned_data['answer3'],
+				question4=form.cleaned_data['question4'],answer4=form.cleaned_data['answer4'],
+				question5=form.cleaned_data['question5'],answer5=form.cleaned_data['answer5'])
+				checklist.save()
+				messages.success(request , "El checklist se creo exitosamente")
+				return redirect('submit_checklist')
+			else:
+				messages.error(request, "El checklist no se pudo crear")
+				return redirect('submit_checklist')
+
+	context = {}
+	context['form'] = checklistForm(initial={'professionalAssigned': request.user.id})
+	return render(request=request, template_name="submit-checklist.html", context=context)
+
+
+def show_checklist(request):
+	idUser = request.user.id
+	listchecklist = checklist.objects.filter(professionalAssigned = idUser)
+	
+	for aux in listchecklist:
+		profInstance = commonUserModel.getUserExtended(aux.professionalAssigned)
+		aux.professionalAssigned = profInstance.firstName+' '+profInstance.lastName
+
+
+	context={}
+	context['queryset'] = listchecklist
+
+	return render(request,template_name="show-checklist.html",context=context)
+
+
+def show_clientPayment(request):
+
+	listOrder = order.get_all_orders()
+
+	for aux in listOrder:
+
+		userInstance = commonUserModel.getUserExtended(aux.userID)
+		aux.userID = userInstance.firstName+' '+userInstance.lastName
+
+	context={}
+	context['queryset'] = listOrder
+
+	return render(request,template_name="show-client-payment.html",context=context)

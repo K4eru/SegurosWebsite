@@ -27,7 +27,7 @@
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Estas son tus asesorias agendadas </h3>
+              <h3 class="mb-0">Estas son los montos pagados por los clientes </h3>
             </div>
           </div>
         </div>
@@ -36,50 +36,21 @@
           <table class="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Usuario</th>
-                <th>Tipo orden</th>
-                <th>Fecha siguiente pago</th>
-                <th>cantidad a pagar</th>
-                <th>Profesional asignado</th>
-                <th>fecha visita</th>
-                <th>descripcion</th>
-                <th>mejora</th>
-                {% if request.user.extend.userType == 1   %}
-                <th>Editar</th>
-                {% endif %}
+                <th>ID Orden</th>
+                <th>Nombre cliente</th>
+                <th>Monto a pagar</th>
               </tr>
             </thead>
-            
             <tbody>
-              
+         
               {% for instance in queryset %}
-              
-              
                 <tr>
                   <td>{{instance.pk}}</td>
                   <td>{{ instance.userID }}</td>
-                  <td>
-                    {% if instance.type == 1 %}
-                        Especial
-                    {% else %}
-                        normal
-                    {% endif %}
-                  </td>
-                  <td>{{ instance.nextPayment }}</td>
                   <td>{{ instance.amount }}</td>
-                  <td>{{ instance.employeeID }}</td>
-                  <td>{{ instance.dateVisit }}</td>
-                  <td>{{ instance.description }}</td>
-                  <td>{{ instance.improvement }}</td>
-                  {% if request.user.extend.userType == 1   %}
-                  <td>
-                    <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
-                    <i class="ni ni-single-02 text-yellow"></i>
-                  </td>
-                  {%endif%}
+
                 </tr>
-               
+
               {% endfor %}
             </tbody>
           </table>
@@ -89,7 +60,7 @@
       </div>
     </div>
   </div>
- 
+
   {% include "includes/footer.html" %}
 
 </div>

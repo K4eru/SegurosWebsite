@@ -31,6 +31,12 @@
                <span class="nav-link-text">Registrar Compañia</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'show_clientPayment' %}">
+                <i class="ni ni-bullet-list-67 text-green"></i>
+                <span class="nav-link-text">Mostrar Pagos de cliente</span>
+              </a>
+            </li>
           {% endif %}   
           {% if request.user.extend.userType == 1 %}
           <li class="nav-item">
@@ -52,6 +58,20 @@
             <a class="nav-link" href="{% url 'show_order' %}">
               <i class="ni ni-bullet-list-67 text-green"></i>
               <span class="nav-link-text">Mostrar Asesorias</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'submit_checklist' %}">
+              <i class="ni ni-tag text-purple"></i>
+              <span class="nav-link-text">Registrar checklist</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'show_checklist' %}">
+              <i class="ni ni-bullet-list-67 text-green"></i>
+              <span class="nav-link-text">Mostrar checklist</span>
             </a>
           </li>
           {% endif %}

@@ -1,0 +1,134 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<div class="header pb-6 d-flex align-items-center" 
+     style="min-height: 250px; ; background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--6">
+  <div class="row">
+  
+    <div class="col-xl-15 order-xl-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Estas son tus checklist creados </h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+         
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>OrdenID</th>
+                <th>Titulo</th>
+                <th>Profesional Asignado</th>
+                <th>Pregunta 1</th>
+                <th>Respuesta 1</th>
+                <th>Pregunta 2</th>
+                <th>Respuesta 2</th>
+                <th>Pregunta 3</th>
+                <th>Respuesta 3</th>
+                <!-- <th>Pregunta 4</th>
+                <th>Respuesta 4</th>
+                <th>Pregunta 5</th>
+                <th>Respuesta 5</th>
+                {% if request.user.extend.userType == 1   %}
+                <th>Editar</th>
+                {% endif %} -->
+              </tr>
+            </thead>
+            
+            <tbody>
+              
+              {% for instance in queryset %}
+              
+              
+                <tr>
+                  <td>{{instance.pk}}</td>
+                  <td>{{ instance.orderID }}</td>
+                  <td>{{ instance.title }}</td>
+                  <td>{{ instance.professionalAssigned }}</td>
+                  <td>{{ instance.question1 }}</td>
+                  <td>{{ instance.answer1 }}</td>
+                  <td>{{ instance.question2 }}</td>
+                  <td>{{ instance.answer2 }}</td>
+                  <td>{{ instance.question3 }}</td>
+                  <td>{{ instance.answer3 }}</td>
+
+                  <!-- {% if request.user.extend.userType == 1   %}
+                  <td>
+                    <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
+                    <i class="ni ni-single-02 text-yellow"></i>
+                  </td>
+                  {%endif%} -->
+                </tr>
+               
+              {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <br>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Pregunta 4</th>
+                <th>Respuesta 4</th>
+                <th>Pregunta 5</th>
+                <th>Respuesta 5</th>
+                {% if request.user.extend.userType == 1   %}
+                <th>Editar</th>
+                {% endif %}
+              </tr>
+            </thead>
+
+            <tbody>  
+              {% for instance in queryset %}
+                <tr>
+                  <td>{{instance.pk}}</td>
+                  <td>{{ instance.question4 }}</td>
+                  <td>{{ instance.answer4 }}</td>
+                  <td>{{ instance.question5 }}</td>
+                  <td>{{ instance.answer5 }}</td>
+                  {% if request.user.extend.userType == 1   %}
+                  <td>
+                    <a class="nav-link" href=#">
+                    <i class="ni ni-single-02 text-yellow"></i>
+                  </td>
+                  {%endif%}
+                </tr>
+               
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
