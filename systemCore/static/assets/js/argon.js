@@ -841,13 +841,13 @@ var BarsChart = (function() {
 		// Create chart
 		var ordersChart = new Chart($chart, {
 			type: 'bar',
-			// data: {
-			// 	labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			// 	datasets: [{
-			// 		label: 'Sales',
-			// 		data: [25, 20, 30, 22, 17, 29]
-			// 	}]
-			// }
+			data: {
+				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				datasets: [{
+					label: 'Sales',
+					data: [25, 20, 30, 22, 17, 29]
+				}]
+			}
 		});
 
 		// Save to jQuery object
@@ -915,13 +915,13 @@ var SalesChart = (function() {
           }
         }
       },
-    //   data: {
-    //     labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    //     datasets: [{
-    //       label: 'Performance',
-    //       data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
-    //     }]
-    //   }
+      data: {
+        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Performance',
+          data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+        }]
+      }
     });
 
     // Save to jQuery object
