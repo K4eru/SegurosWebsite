@@ -66,6 +66,9 @@ class order(models.Model):
     def get_order(id):
         return order.objects.get(id = id)
 
+    # def getTotalAmount():
+    #     return order.objects.aggregate(total=sum('amount'))
+
 
 class training(models.Model):
     name=models.CharField(max_length=100)

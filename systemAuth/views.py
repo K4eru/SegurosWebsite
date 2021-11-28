@@ -1,18 +1,27 @@
 from django.contrib.auth import forms
+from django.db.models.aggregates import Sum
 from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import companyForm, mainUserForm, userForm, UserLoginForm
 from . import models
-from systemAuth.models import commonUserModel
+from systemAuth.models import commonUserModel , order , company
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='request_login')
 def home(request):
+	
 	context = {}
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
-	return render(request, template_name= "layouts/base.html", context=context)
+	context['totalUsers'] = commonUserModel.objects.count()
+	context['totalOrders'] = order.objects.count()
+	context['totalCompanys'] = company.objects.count()
+	context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
+
+	
+
+	return render(request, template_name= "index.html", context=context)
 
 
 

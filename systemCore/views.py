@@ -124,7 +124,6 @@ def update_profile(request):
 def submit_Order(request):
 	if request.method == "POST":
 		if "registerOrder" in request.POST:
-			
 			form = orderForm(request.POST)
 			if form.is_valid():
 				order = models.order(userID=form.cleaned_data['userID'],type=form.cleaned_data['type'],nextPayment=form.cleaned_data['nextPayment'],amount=form.cleaned_data['amount'],employeeID=form.cleaned_data['employeeID'],dateVisit=form.cleaned_data['dateVisit'],description=form.cleaned_data['description'],improvement=form.cleaned_data['improvement'],edited=form.cleaned_data['edited'])
