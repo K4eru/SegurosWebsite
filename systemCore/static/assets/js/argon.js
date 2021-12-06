@@ -873,11 +873,23 @@ var SalesChart = (function() {
   // Variables
 
   var $chart = $('#chart-sales-dark');
+  var aux1 = document.getElementById('datos1').textContent.replace("[","").replace("]","").split(',');
+  var aux2 = document.getElementById('names').textContent.replaceAll("[","").replaceAll("]","").replaceAll("'","").split(',');
+ 
+  console.log(aux2)
+  var array = [];
 
+//   for (let i = 0; i < aux1.length - 1; i++) {
+// 	var row = aux1[i];
+// 	array.push(row);
+// }
+  
 
   // Methods
-
+  
   function init($chart) {
+	
+	
 
     var salesChart = new Chart($chart, {
       type: 'line',
@@ -891,8 +903,8 @@ var SalesChart = (function() {
             },
             ticks: {
               callback: function(value) {
-                if (!(value % 10)) {
-                  return '$' + value + 'k';
+				if (value % 1 == 0) {
+					return value;
                 }
               }
             }
@@ -904,22 +916,29 @@ var SalesChart = (function() {
               var label = data.datasets[item.datasetIndex].label || '';
               var yLabel = item.yLabel;
               var content = '';
+				
+			//   '<span class="popover-body-label mr-auto">' + label + '</span>'; 
 
               if (data.datasets.length > 1) {
-                content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+                content += label;  
               }
-
-              content += '<span class="popover-body-value">$' + yLabel + 'k</span>';
+			//   '<span class="popover-body-value">$' + yLabel + 'k</span>';
+			  if(yLabel == 1){
+				content += yLabel+' Orden';
+			  } else{
+				content += yLabel+' Ordenes';
+			  }
+              
               return content;
             }
           }
         }
       },
       data: {
-        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: aux2,
         datasets: [{
           label: 'Performance',
-          data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+          data: aux1
         }]
       }
     });

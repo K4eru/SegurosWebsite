@@ -1,5 +1,5 @@
 from django.contrib.auth import forms
-from django.db.models.aggregates import Sum
+from django.db.models.aggregates import Count, Sum
 from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
@@ -19,7 +19,23 @@ def home(request):
 	context['totalCompanys'] = company.objects.count()
 	context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
 
+	context['poto'] = [0, 20, 10, 30, 15] #valores de las ordenes
+
 	
+	clientlist = commonUserModel.get_clients()
+	clientOrders = []
+	clientName = []
+	for client in clientlist:
+		clientOrders.append(order.objects.filter(userID=client.user.id).count())
+		clientName.append("{0} {1}".format(client.firstName,client.lastName))
+	
+	#context['ordercliente'] = clientlist
+
+	context['clientOrders'] = clientOrders
+	context['clientNames'] = clientName
+
+
+
 
 	return render(request, template_name= "index.html", context=context)
 

@@ -19,7 +19,7 @@ class commonUserModel(models.Model):
     disabled = models.BooleanField(default = False)
     
     def __str__(self):
-        return self.rut
+        return "{0} {1}".format(self.firstName,self.lastName)
 
     def getUserExtended(userID):
         return commonUserModel.objects.get(id = userID)
@@ -30,7 +30,7 @@ class commonUserModel(models.Model):
     def get_clients():
         return commonUserModel.objects.filter(userType = 0)
     
-
+   
 class company(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
