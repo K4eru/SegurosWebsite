@@ -297,7 +297,7 @@ var Charts = (function() {
 				beginAtZero: true,
 				padding: 10,
 				callback: function(value) {
-					if (!(value % 10)) {
+					if (value % 1 == 0){
 						return value
 					}
 				}
@@ -829,8 +829,10 @@ var BarsChart = (function() {
 	//
 
 	var $chart = $('#chart-bars');
-
-
+	var companyNames = document.getElementById('companyNames').textContent.replaceAll("[","").replaceAll("]","").replaceAll("'","").split(',');
+	var companyCount = document.getElementById('companyCount').textContent.replaceAll("[","").replaceAll("]","").replaceAll("'","").split(',');
+	console.log(companyNames)
+	console.log(companyCount)
 	//
 	// Methods
 	//
@@ -842,10 +844,10 @@ var BarsChart = (function() {
 		var ordersChart = new Chart($chart, {
 			type: 'bar',
 			data: {
-				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: companyNames,
 				datasets: [{
-					label: 'Sales',
-					data: [25, 20, 30, 22, 17, 29]
+					label: 'Ordenes solicitadas',
+					data: companyCount
 				}]
 			}
 		});
@@ -873,16 +875,10 @@ var SalesChart = (function() {
   // Variables
 
   var $chart = $('#chart-sales-dark');
-  var aux1 = document.getElementById('datos1').textContent.replace("[","").replace("]","").split(',');
-  var aux2 = document.getElementById('names').textContent.replaceAll("[","").replaceAll("]","").replaceAll("'","").split(',');
+  var clientOrders = document.getElementById('clientOrders').textContent.replace("[","").replace("]","").split(',');
+  var clientNames = document.getElementById('clientNames').textContent.replaceAll("[","").replaceAll("]","").replaceAll("'","").split(',');
  
-  console.log(aux2)
-  var array = [];
 
-//   for (let i = 0; i < aux1.length - 1; i++) {
-// 	var row = aux1[i];
-// 	array.push(row);
-// }
   
 
   // Methods
@@ -935,10 +931,10 @@ var SalesChart = (function() {
         }
       },
       data: {
-        labels: aux2,
+        labels: clientNames,
         datasets: [{
           label: 'Performance',
-          data: aux1
+          data: clientOrders
         }]
       }
     });

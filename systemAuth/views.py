@@ -19,18 +19,26 @@ def home(request):
 	context['totalCompanys'] = company.objects.count()
 	context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
 
-	context['poto'] = [0, 20, 10, 30, 15] #valores de las ordenes
-
 	
+	companies = company.objects.all()
+	companies2 = commonUserModel.get_companys()
 	clientlist = commonUserModel.get_clients()
 	clientOrders = []
 	clientName = []
+	
 	for client in clientlist:
 		clientOrders.append(order.objects.filter(userID=client.user.id).count())
 		clientName.append("{0} {1}".format(client.firstName,client.lastName))
 	
 	#context['ordercliente'] = clientlist
+	companyNames =[]
+	companyCount = []
+	for aux in companies:
+		companyNames.append(aux.name)
+		companyCount.append(commonUserModel.objects.filter(company=aux.id).count())
 
+	context['companyNames'] = companyNames
+	context['companyCount'] = companyCount
 	context['clientOrders'] = clientOrders
 	context['clientNames'] = clientName
 

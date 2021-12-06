@@ -29,6 +29,9 @@ class commonUserModel(models.Model):
     
     def get_clients():
         return commonUserModel.objects.filter(userType = 0)
+
+    def get_companys():
+        return commonUserModel.objects.values_list('company',flat=True)
     
    
 class company(models.Model):

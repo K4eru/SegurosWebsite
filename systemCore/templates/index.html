@@ -141,7 +141,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-                  <h5 class="h3 mb-0">Ordenes Totales</h5>
+                  <h5 class="h3 mb-0">Ordenes Totales por compañias</h5>
                 </div>
               </div>
             </div>
@@ -158,12 +158,12 @@
       {% include "includes/footer.html" %}
 
     </div>
-      
 
     <div style="visibility: hidden;" id="datos"> <!--"-->
-      <p id="datos1">{{clientOrders}}</p>
-      <p id="names">{{clientNames}}</p>
-     
+      <p id="clientOrders">{{clientOrders}}</p>
+      <p id="clientNames">{{clientNames}}</p>
+      <p id="companyNames">{{companyNames}}</p>
+      <p id="companyCount">{{companyCount}}</p>
     </div>
 
    
