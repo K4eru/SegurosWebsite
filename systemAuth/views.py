@@ -93,11 +93,11 @@ def register_user(request):
 				userType = form.cleaned_data['userType'], company = form.cleaned_data['company'])
 				userextended.save()
 
-				messages.success(request , "El usuario se creo exitosamente")
+				
 				
 				return redirect('registerUser')
 			else:
-				messages.error(request, "El usuario no se pudo crear")
+				
 				return redirect('registerUser')
 	
 	context = {}
@@ -117,10 +117,10 @@ def register_company(request):
 			if form.is_valid():
 				company = models.company(name=form.cleaned_data['name'],description=form.cleaned_data['description'],address=form.cleaned_data['address'])
 				company.save()
-				messages.success(request , "La compañia se creo exitosamente")
+				
 				return redirect('registerCompany')
 			else:
-				messages.error(request, "La compañia no se pudo crear")
+				
 				return redirect('registerCompany')
 
 

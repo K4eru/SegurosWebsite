@@ -66,12 +66,32 @@
                         normal
                     {% endif %}
                   </td>
-                  <td>{{ instance.nextPayment }}</td>
-                  <td>{{ instance.amount }}</td>
+                  <td>
+                    {% if instance.edited == 1  %}
+                        {{ instance.nextPayment }}
+                    {% else %}
+                        N/A
+                    {%endif%}
+                  </td>
+                  <td>
+                    {% if instance.edited == 1  %}
+                       {{ instance.amount }}
+                    {% else %}
+                       N/A
+                    {%endif%}
+                  
+                  </td>
                   <td>{{ instance.employeeID }}</td>
-                  <td>{{ instance.dateVisit }}</td>
+                  <td>
+                    {% if instance.edited == 1  %}
+                       {{ instance.dateVisit }}
+                    {% else %}
+                       N/A
+                   {%endif%}
+                    
+                  </td>
                   <td>{{ instance.description }}</td>
-                  <td>{{ instance.improvement }}</td>
+                  <td>{{ instance.edited }}</td>
                   {% if request.user.extend.userType == 1   %}
                   <td>
                     <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
@@ -83,8 +103,8 @@
               {% endfor %}
             </tbody>
           </table>
-
-
+    
+            
         </div>
       </div>
     </div>

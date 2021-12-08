@@ -5,10 +5,50 @@ from django.contrib.auth.decorators import login_required
 from systemAuth import models
 from django.contrib import messages
 from systemAuth.forms import  checklistForm, orderForm , userForm , mainUserForm , trainingForm
-from systemAuth.models import checklist, commonUserModel, training , order
+from systemAuth.models import checklist, commonUserModel, company, training , order
 from django.contrib.auth.models import User
-import requests, json
+
 # Create your views here.
+
+from django.http import FileResponse
+import io 
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
+def generatePDFGlobal(request):
+	buf = io.BytesIO()
+
+	c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+	textob = c.beginText()
+
+	textob.setTextOrigin(inch, inch)
+	textob.setFont("Times-Roman", 14)
+	c.drawString(240,30,'Reporte global de compañia')
+	# lines = [
+	# 	"poto meao"
+	# ]
+
+	lines = []
+	
+	lines.append("Cantidad de clientes que utilizan el sistema: {0}".format(commonUserModel.get_clients().count()))
+	lines.append("")
+	lines.append("Compañias registradas en nuestro sistema : {0}".format(company.objects.all().count()))
+	lines.append("")
+
+
+
+
+	for line in lines:
+		textob.textLine(line)
+
+	c.drawText(textob)
+	c.showPage()
+	c.save()
+	buf.seek(0)
+
+	return FileResponse(buf, as_attachment=True, filename= "GlobalReport.pdf")
 
 def show_training(request):
 	userID = request.user.id
@@ -66,7 +106,7 @@ def update_order(request,order_pk):
 				  'dateVisit': extendedInstance.dateVisit,
 				  'description': extendedInstance.description,
 				  'improvement': extendedInstance.improvement,
-				  'edited': extendedInstance.edited
+				  'edited': 1
 	}
 	if request.method == "POST":
 		if "editOrder" in request.POST:
@@ -139,10 +179,10 @@ def submit_Order(request):
 				# 			'improvement' : form.cleaned_data["improvement"]}
 							
 				# r = requests.post(url,data= payload)
-				messages.success(request , "La orden se creo exitosamente")
+				
 				return redirect('order')
 			else:
-				messages.error(request, "La orden no se pudo crear")
+				
 				return redirect('order')
 	print(request.user.id)
 	context = {}
@@ -159,15 +199,16 @@ def submit_training(request):
 			if form.is_valid():
 				training = models.training(name=form.cleaned_data['name'],professionalAssigned=form.cleaned_data['professionalAssigned'],client1=form.cleaned_data['client1'],client2=form.cleaned_data['client2'],client3=form.cleaned_data['client3'],date=form.cleaned_data['date'])
 				training.save()
-				messages.success(request , "La capacitacion se creo exitosamente")
+				
 				return redirect('submit-training')
 			else:
-				messages.error(request, "La capacitacionno se pudo crear")
+				
 				return redirect('submit-training')
 
 	context = {}
 	context['form'] = trainingForm(initial={'professionalAssigned': request.user.id})
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
+	context['aux'] = commonUserModel.get_clients()
 	return render(request=request, template_name="submit-training.html", context=context)
 
 def submit_checklist(request):
@@ -182,10 +223,10 @@ def submit_checklist(request):
 				question4=form.cleaned_data['question4'],answer4=form.cleaned_data['answer4'],
 				question5=form.cleaned_data['question5'],answer5=form.cleaned_data['answer5'])
 				checklist.save()
-				messages.success(request , "El checklist se creo exitosamente")
+				
 				return redirect('submit_checklist')
 			else:
-				messages.error(request, "El checklist no se pudo crear")
+				
 				return redirect('submit_checklist')
 
 	context = {}
