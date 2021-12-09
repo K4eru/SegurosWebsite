@@ -4,6 +4,7 @@ from django.core.files.base import equals_lf
 
 from .models import commonUserModel, company , training , order , checklist
 from django.contrib.auth.forms import AuthenticationForm
+import re
 
 RESPONSABLES_CHOICES = []
 
@@ -20,6 +21,8 @@ try:
     responsables = commonUserModel.get_clients()
     for res in responsables:
         CLIENT_CHOICES.append(tuple((getattr(res, 'id'), getattr(res, 'firstName') +' '+ getattr(res, 'lastName'))))
+        
+    # print(CLIENT_CHOICES)   
 except:
     print("No hay usuarios clientes aun")
 
@@ -50,6 +53,13 @@ class DateWidget(forms.DateInput):
 #class orderForm(forms.Form):
 class orderForm(forms.ModelForm):
     class Meta:
+        for aux in CLIENT_CHOICES:
+            if(re.match("\([\d,\s]+\)",str(aux))):
+                 CLIENT_CHOICES.remove(aux)
+        
+        for aux in RESPONSABLES_CHOICES:
+            if(re.match("\([\d,\s]+\)",str(aux))):
+                 RESPONSABLES_CHOICES.remove(aux)
         model = order
         fields = ('userID','type','nextPayment','amount','employeeID','dateVisit','description','improvement','edited')
         labels = {
@@ -161,6 +171,14 @@ class companyForm(forms.ModelForm):
 
 class trainingForm(forms.ModelForm):
     class Meta:
+        for aux in CLIENT_CHOICES:
+            if(re.match("\([\d,\s]+\)",str(aux))):
+                 CLIENT_CHOICES.remove(aux)
+        
+        for aux in RESPONSABLES_CHOICES:
+            if(re.match("\([\d,\s]+\)",str(aux))):
+                 RESPONSABLES_CHOICES.remove(aux)
+
         model = training
         fields = ('name','professionalAssigned','client1','client2','client3','date')
         labels = {
@@ -181,6 +199,9 @@ class trainingForm(forms.ModelForm):
         }
 
 class checklistForm(forms.ModelForm):
+    for aux in RESPONSABLES_CHOICES:
+        if(re.match("\([\d,\s]+\)",str(aux))):
+            RESPONSABLES_CHOICES.remove(aux)
     class Meta:
         model = checklist
         fields = ('orderID','title','professionalAssigned','question1','answer1','question2','answer2','question3','answer3','question4','answer4','question5','answer5')

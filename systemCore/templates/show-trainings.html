@@ -1,67 +1,56 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Show trainings {% endblock title %}
+{% block title %} Show Checklist {% endblock title %}
 
 {% block content %}
 
-<div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 250px; ; background-size: cover; background-position: center top;">
-  <!-- Mask -->
-  <span class="mask bg-gradient-default opacity-8"></span>
-  <!-- Header container -->
-  <div class="container-fluid d-flex align-items-center">
-    <div class="row">
-      <div class="col-lg-7 col-md-10">
 
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Asesorias</h6>        
+        </div>     
       </div>
     </div>
   </div>
 </div>
-<!-- Page content -->
 
+<!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
-  
-    <div class="col-xl-15 order-xl-1">
-      <div class="card">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Estas son las capacitaciones agendadas </h3>
-            </div>
-          </div>
+    <div class="col">
+      <div class="card bg-default shadow">
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Estas son las capacitaciones agendadas</h3>
         </div>
-        <div class="card-body">
-         
-          <table class="table">
-            <thead>
+        <div class="table-responsive">
+          <table class="table align-items-center table-dark table-flush">
+            <thead class="thead-dark">
               <tr>
-                <th>Nombre capacitacion</th>
-                <th>Profesional Asignado</th>
-                <th>Cliente1</th>
-                <th>cliente2</th>
-                <th>cliente3</th>
-                <th>fecha</th>
+                <th scope="col" class="sort" >Nombre capacitacion</th>
+                <th scope="col" class="sort" >Profesional Asignado</th>
+                <th scope="col" class="sort" >Cliente 1</th>        
+                <th scope="col" class="sort" >Cliente 2</th>  
+                <th scope="col" class="sort" >Cliente 3</th>  
+                <th scope="col" class="sort" >Fecha</th>      
               </tr>
             </thead>
-            <tbody>
-         
-              {% for instance in queryset %}
+            <tbody class="list">
+              {% for instance in queryset %}                    
                 <tr>
                   <td>{{ instance.name }}</td>
                   <td>{{ instance.professionalName }}</td>
                   <td>{{ instance.client1 }}</td>
                   <td>{{ instance.client2 }}</td>
                   <td>{{ instance.client3 }}</td>
-                  <td>{{ instance.date }}</td>
-
+                  <td>{{ instance.date }}</td>               
                 </tr>
-
-              {% endfor %}
+               {% endfor %}
+                
             </tbody>
           </table>
-
-
         </div>
       </div>
     </div>

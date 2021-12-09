@@ -1,24 +1,23 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Send Training {% endblock title %}
+{% block title %} Show Checklist {% endblock title %}
 
 {% block content %}
 
-<div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 250px; ; background-size: cover; background-position: center top;">
-  <!-- Mask -->
-  <span class="mask bg-gradient-default opacity-8"></span>
-  <!-- Header container -->
-  <div class="container-fluid d-flex align-items-center">
-    <div class="row">
-      <div class="col-lg-7 col-md-10">
 
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Asesorias</h6>        
+        </div>     
       </div>
     </div>
   </div>
 </div>
-<!-- Page content -->
 
+<!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
   
@@ -88,7 +87,6 @@
         </div>
       </div>
     </div>
-    {{aux}}
   </div>
   <style type="text/css">
     select[name="professionalAssigned"] {
@@ -96,6 +94,7 @@
        background-color: lightgray; 
      }
    </style>
+
   {% include "includes/footer.html" %}
 
 </div>
@@ -103,6 +102,4 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-
-<script src="/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 {% block javascripts %}{% endblock javascripts %}

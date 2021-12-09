@@ -4,9 +4,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from systemAuth import models
 from django.contrib import messages
-from systemAuth.forms import  checklistForm, orderForm , userForm , mainUserForm , trainingForm
+from systemAuth.forms import  checklistForm, orderForm , userForm , mainUserForm , trainingForm , CLIENT_CHOICES
 from systemAuth.models import checklist, commonUserModel, company, training , order
 from django.contrib.auth.models import User
+
 
 # Create your views here.
 
@@ -208,7 +209,8 @@ def submit_training(request):
 	context = {}
 	context['form'] = trainingForm(initial={'professionalAssigned': request.user.id})
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
-	context['aux'] = commonUserModel.get_clients()
+	
+	
 	return render(request=request, template_name="submit-training.html", context=context)
 
 def submit_checklist(request):

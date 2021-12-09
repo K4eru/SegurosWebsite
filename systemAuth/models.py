@@ -76,9 +76,9 @@ class order(models.Model):
 class training(models.Model):
     name=models.CharField(max_length=100)
     professionalAssigned = models.IntegerField()
-    client1 = models.IntegerField()
-    client2 = models.IntegerField()
-    client3 = models.IntegerField()
+    client1 = models.IntegerField(blank= False)
+    client2 = models.IntegerField(blank= False)
+    client3 = models.IntegerField(blank= False)
     date = models.DateField()
 
     def __str__(self):
@@ -88,16 +88,16 @@ class checklist(models.Model):
     orderID = models.OneToOneField(order, on_delete = models.CASCADE, related_name="extend")
     title= models.CharField(max_length=100)
     professionalAssigned = models.IntegerField()
-    question1 = models.CharField(max_length=100)
-    answer1 = models.CharField(max_length=100)
-    question2 = models.CharField(max_length=100)
-    answer2 = models.CharField(max_length=100)
-    question3 = models.CharField(max_length=100)
-    answer3 = models.CharField(max_length=100)
-    question4 = models.CharField(max_length=100)
-    answer4 = models.CharField(max_length=100)
-    question5 = models.CharField(max_length=100)
-    answer5 = models.CharField(max_length=100)
+    question1 = models.CharField(max_length=100,blank=True)
+    answer1 = models.CharField(max_length=100,blank=True)
+    question2 = models.CharField(max_length=100,blank=True)
+    answer2 = models.CharField(max_length=100,blank=True)
+    question3 = models.CharField(max_length=100,blank=True)
+    answer3 = models.CharField(max_length=100,blank=True)
+    question4 = models.CharField(max_length=100,blank=True)
+    answer4 = models.CharField(max_length=100,blank=True)
+    question5 = models.CharField(max_length=100,blank=True)
+    answer5 = models.CharField(max_length=100,blank=True)
 
     def __str__(self):
         return self.title

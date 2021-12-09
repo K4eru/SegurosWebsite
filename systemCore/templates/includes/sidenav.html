@@ -39,7 +39,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'generatePDF_global' %}">
-                <i class="ni ni-bullet-list-67 text-green"></i>
+                <i class="ni ni-book-bookmark text-red"></i>
                 <span class="nav-link-text">Generar PDF Global</span>
               </a>
             </li>
@@ -51,32 +51,32 @@
                 <span class="nav-link-text">Registrar Capacitacion</span>
               </a>
           </li>  
-
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'submit_checklist' %}">
+              <i class="ni ni-tag text-yellow"></i>
+              <span class="nav-link-text">Registrar checklist</span>
+            </a>
+          </li>
          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'show_training' %}">
-              <i class="ni ni-bullet-list-67 text-green"></i>
+              <i class="ni ni-books text-green"></i>
               <span class="nav-link-text">Mostrar Capacitaciones</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'show_order' %}">
-              <i class="ni ni-bullet-list-67 text-green"></i>
+              <i class="ni ni-bullet-list-67 text-purple"></i>
               <span class="nav-link-text">Mostrar Asesorias</span>
             </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'submit_checklist' %}">
-              <i class="ni ni-tag text-purple"></i>
-              <span class="nav-link-text">Registrar checklist</span>
-            </a>
-          </li>
+          
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'show_checklist' %}">
-              <i class="ni ni-bullet-list-67 text-green"></i>
+              <i class="ni ni-check-bold text-red"></i>
               <span class="nav-link-text">Mostrar checklist</span>
             </a>
           </li>
@@ -85,7 +85,7 @@
           {% if request.user.extend.userType == 0 %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'order' %}">
-              <i class="ni ni-key-25 text-info"></i>
+              <i class="ni ni-badge text-info"></i>
               <span class="nav-link-text">Solicita tu asesoria</span>
             </a>
           </li>
