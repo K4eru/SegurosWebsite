@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserModel
+from django.db.models.aggregates import Sum
 from django.forms.forms import Form
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -16,8 +17,10 @@ import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+import re
 
 def generatePDFGlobal(request):
+	money = re.sub('\D+','',str(order.objects.aggregate(Sum("amount"))))
 	buf = io.BytesIO()
 
 	c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
@@ -26,18 +29,19 @@ def generatePDFGlobal(request):
 
 	textob.setTextOrigin(inch, inch)
 	textob.setFont("Times-Roman", 14)
-	c.drawString(240,30,'Reporte global de compañia')
+	c.drawString(240,30,'Reporte global de sistema')
 	# lines = [
-	# 	"poto meao"
+	# 	"poto"
 	# ]
 
 	lines = []
 	
-	lines.append("Cantidad de clientes que utilizan el sistema: {0}".format(commonUserModel.get_clients().count()))
+	lines.append("Usuarios que utilizan el sistema: {0}".format(commonUserModel.objects.exclude(userType=2).count()))
 	lines.append("")
 	lines.append("Compañias registradas en nuestro sistema : {0}".format(company.objects.all().count()))
 	lines.append("")
-
+	lines.append("Dinero ganado : ${:,.0f}".format(int(money)))
+	
 
 
 
@@ -127,7 +131,42 @@ def update_order(request,order_pk):
 
 	return render(request=request, template_name="edit-order.html", context= context)	
 
+def update_checklist(request,checklist_pk): 
 
+	id = checklist_pk
+	extendedInstance = checklist.get_checklist(id)
+
+	initExtend = {'orderID': extendedInstance.orderID,
+				  'title': extendedInstance.title,
+				  'professionalAssigned': extendedInstance.professionalAssigned,
+				  'question1': extendedInstance.question1 ,
+				  'answer1' : extendedInstance.answer1,
+				  'question2': extendedInstance.question2,
+				  'answer2': extendedInstance.answer2,
+				  'question3': extendedInstance.question3,
+				  'answer3': extendedInstance.answer3,
+				  'question4': extendedInstance.question4,
+				  'answer4': extendedInstance.answer4,
+				  'question5': extendedInstance.question5,
+				  'answer5': extendedInstance.answer5
+	}
+	if request.method == "POST":
+		if "editChecklist" in request.POST:
+			form = checklistForm(request.POST, instance=extendedInstance)
+			if form.is_valid() :
+				# form.fields['orderID'].disabled = True
+				form.save()
+
+				return redirect('show_checklist')
+			else:
+				
+				return redirect('show_checklist')
+
+	context = {}
+	context['form'] = checklistForm(initial=initExtend)
+
+
+	return render(request=request, template_name="edit-checklist.html", context= context)	
 
 def update_profile(request): 
 

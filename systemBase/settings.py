@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'systemCore',
     'systemAuth',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

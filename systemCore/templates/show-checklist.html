@@ -34,7 +34,7 @@
                 <th scope="col" class="sort" >Titulo</th>
                 <th scope="col">Profesional Asignado</th>
                 {% if request.user.extend.userType == 1   %}
-                <th scope="col" class="sort" >Completion</th>
+                <th scope="col" class="sort" >Ver/Editar</th>
                 {% endif %}
               </tr>
             </thead>
@@ -47,7 +47,7 @@
                   <td>{{ instance.professionalAssigned }}</td>              
                     {% if request.user.extend.userType == 1   %}
                       <td>
-                        <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
+                        <a class="nav-link" href="{% url 'edit_checklist' checklist_pk=instance.pk %}">
                         <i class="ni ni-single-02 text-yellow"></i>
                       </td>
                     {%endif%}

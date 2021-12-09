@@ -3,7 +3,7 @@
 {% block title %} Show Checklist {% endblock title %}
 
 {% block content %}
-
+{% load humanize %}
 
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -64,7 +64,7 @@
                   </td>
                   <td>
                     {% if instance.edited == 1  %}
-                      {{ instance.amount }}
+                      ${{ instance.amount |intcomma }}
                     {% else %}
                       N/A
                     {%endif%}

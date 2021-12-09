@@ -4,7 +4,7 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
-
+{% load humanize %}
 {% block content %}
 
     <!-- Header -->
@@ -89,7 +89,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Dinero ganado por asesorias</h5>
-                      <span class="h2 font-weight-bold mb-0">{{ moneyEarned.amount__sum }}</span>
+                      <span class="h2 font-weight-bold mb-0">${{ moneyEarned.amount__sum |intcomma}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -111,6 +111,7 @@
       </div>
     </div>
 
+    {% if request.user.extend.userType == 2 %}
     <!-- Page content -->
     <div class="container-fluid mt--6">
       <div class="row">
@@ -120,7 +121,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   
-                  <h5 class="h3 text-white mb-0">Accidentabilidad por cliente</h5>
+                  <h5 class="h3 text-white mb-0">Capacitaciones solicitadas por cliente</h5>
                 </div>      
               </div>
             </div>
@@ -154,7 +155,97 @@
           </div>
         </div>
       </div>
+      {% endif %}
 
+      {% if request.user.extend.userType == 1 %}
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col">
+            <div class="card bg-default shadow">
+              <div class="card-header bg-transparent border-0">
+                <h3 class="text-white mb-0">Bienvenido! Aqui encontraras todas las fechas de tus trabajos asignados
+                </h3>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-dark table-flush">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" class="sort" >Id Trabajo</th>
+                      <th scope="col" class="sort" >Tipo  Trabajo</th> 
+                      <th scope="col" class="sort" >Fecha </th>                                     
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    <tr>
+                      {% for instance in ordersAssigned %}
+                        <td>{{instance.pk}}</td>
+                        <td>
+                          {% if instance.type == 1 %}
+                            Asesoria Especial
+                          {% else %}
+                            Asesoria Normal
+                          {% endif %}
+                        </td>
+                        <td>{{instance.dateVisit}}</td>
+                      {% endfor %}
+                      
+                    </tr>
+                    <tr>
+                      {% for instance in trainingAssigned %}
+                      <td>{{instance.pk}}</td>
+                      <td>Capacitacion</td>
+                      <td>{{instance.date}}</td>
+                      {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if request.user.extend.userType == 0 %}
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col">
+            <div class="card bg-default shadow">
+              <div class="card-header bg-transparent border-0">
+                <h3 class="text-white mb-0">Bienvenido! Aqui te mostraremos si una de tus asesorias fue actualizada
+                </h3>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-dark table-flush">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" class="sort" >Id Asesoria</th>
+                      <th scope="col" class="sort" >Profesional Asignado</th> 
+                      <th scope="col" class="sort" >Fue actualizada? </th>                                     
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    <tr>
+                      {% for instance in clientAssignedOrder %}
+                        <td>{{instance.pk}}</td>
+                        <td>
+                          {{instance.employeeID}}
+                        </td>
+                        <td>
+                            {% if instance.edited == 1 %}
+                               La Orden fue modificada! por favor revisa los detalles
+                            {% else %}
+                              La orden todavia no ha sido modificada
+                            {% endif%}
+                        </td>
+                      {% endfor %}                  
+                   </tr>                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
       {% include "includes/footer.html" %}
 
     </div>

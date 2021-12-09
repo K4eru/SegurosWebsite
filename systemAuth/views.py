@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import companyForm, mainUserForm, userForm, UserLoginForm
 from . import models
-from systemAuth.models import commonUserModel , order , company
+from systemAuth.models import commonUserModel , order , company, training
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -13,13 +13,14 @@ from django.contrib.auth.decorators import login_required
 def home(request):
 	
 	context = {}
+	#DATA FOR ADDONS IN ADMIN INDEX LUL
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	context['totalUsers'] = commonUserModel.objects.count()
 	context['totalOrders'] = order.objects.count()
 	context['totalCompanys'] = company.objects.count()
 	context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
 
-	
+	#DATA FOR GRAPHICS LUL
 	companies = company.objects.all()
 	companies2 = commonUserModel.get_companys()
 	clientlist = commonUserModel.get_clients()
@@ -28,7 +29,7 @@ def home(request):
 	
 	for client in clientlist:
 		clientOrders.append(order.objects.filter(userID=client.user.id).count())
-		clientName.append("{0} {1}".format(client.firstName,client.lastName))
+		clientName.append("{0} {1} - {2}".format(client.firstName,client.lastName, client.company))
 	
 	#context['ordercliente'] = clientlist
 	companyNames =[]
@@ -42,9 +43,17 @@ def home(request):
 	context['clientOrders'] = clientOrders
 	context['clientNames'] = clientName
 
+    #DATA FOR PROFESSIONAL HEHE
+	context['ordersAssigned'] = order.objects.filter(employeeID = request.user.id)
+	context['trainingAssigned'] = training.objects.filter(professionalAssigned = request.user.id)
 
+	#DATA FOR CLIENT LMAO
+	listOrder = order.objects.filter(userID = request.user.id)
+	for aux in listOrder:
+		profInstance = commonUserModel.getUserExtended(aux.employeeID)
+		aux.employeeID = profInstance.firstName+' '+profInstance.lastName
 
-
+	context['clientAssignedOrder'] = listOrder
 	return render(request, template_name= "index.html", context=context)
 
 

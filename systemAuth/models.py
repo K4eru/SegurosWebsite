@@ -32,6 +32,9 @@ class commonUserModel(models.Model):
 
     def get_companys():
         return commonUserModel.objects.values_list('company',flat=True)
+
+    def get_UsersNotAdmin():
+        return commonUserModel.objects.exclude(userType = 2)
     
    
 class company(models.Model):
@@ -101,3 +104,6 @@ class checklist(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_checklist(id):
+        return checklist.objects.get(id = id)

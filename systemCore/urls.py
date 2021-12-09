@@ -1,6 +1,6 @@
 from django.urls import path
 from systemAuth.views import home
-from .views import  generatePDFGlobal,show_clientPayment, update_profile , submit_Order , submit_training, show_training , show_order, update_order, submit_checklist,show_checklist
+from .views import  generatePDFGlobal,show_clientPayment, update_checklist, update_profile , submit_Order , submit_training, show_training , show_order, update_order, submit_checklist,show_checklist
 
 urlpatterns = [
     path('', home, name ='home'),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('show-training',show_training, name='show_training'),
     path('show-order',show_order, name='show_order'),
     path('edit-order/<int:order_pk>',update_order, name='edit_order'),
+    path('edit-checklist/<int:checklist_pk>',update_checklist, name='edit_checklist'),
     path('submit-checklist',submit_checklist, name='submit_checklist'),
     path('show-checklist',show_checklist, name='show_checklist'),
     path('show-clientPayment',show_clientPayment, name='show_clientPayment'),
