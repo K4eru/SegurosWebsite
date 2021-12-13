@@ -89,7 +89,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Dinero ganado por asesorias</h5>
-                      <span class="h2 font-weight-bold mb-0">${{ moneyEarned.amount__sum |intcomma}}</span>
+                      <span class="h2 font-weight-bold mb-0">${{ moneyEarned |intcomma}}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -179,15 +179,21 @@
                     {% for instance in ordersAssigned %}
                     <tr>
                       
-                        <td>{{instance.pk}}</td>
+                        <td>{{instance.0}}</td>
                         <td>
-                          {% if instance.type == 1 %}
+                          {% if instance.2 == 1 %}
                             Asesoria Especial
                           {% else %}
                             Asesoria Normal
                           {% endif %}
                         </td>
-                        <td>{{instance.dateVisit}}</td>
+                        <td>
+                          {% if instance.6 == "1970-01-01" %}
+                              N/A
+                          {%else %}
+                            {{instance.6}}
+                          {%endif%}
+                        </td>
                      
                       
                     </tr>
@@ -195,9 +201,9 @@
                     {% for instance in trainingAssigned %}
                     <tr>
                       
-                      <td>{{instance.pk}}</td>
+                      <td>{{instance.0}}</td>
                       <td>Capacitacion</td>
-                      <td>{{instance.date}}</td>
+                      <td>{{instance.6}}</td>
                       
                     </tr>
                     {% endfor %}
@@ -230,12 +236,12 @@
                   <tbody class="list">
                     <tr>
                       {% for instance in clientAssignedOrder %}
-                        <td>{{instance.pk}}</td>
+                        <td>{{instance.0}}</td>
                         <td>
-                          {{instance.employeeID}}
+                          {{instance.1}}
                         </td>
                         <td>
-                            {% if instance.edited == 1 %}
+                            {% if instance.2 == 1 %}
                                La Orden fue modificada! por favor revisa los detalles
                             {% else %}
                               La orden todavia no ha sido modificada

@@ -20,7 +20,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 import re
 
 def generatePDFGlobal(request):
-	money = re.sub('\D+','',str(order.objects.aggregate(Sum("amount"))))
+	# money = re.sub('\D+','',str(order.objects.aggregate(Sum("amount"))))
 	buf = io.BytesIO()
 
 	c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
@@ -31,13 +31,18 @@ def generatePDFGlobal(request):
 	textob.setFont("Times-Roman", 14)
 	c.drawString(240,30,'Reporte global de sistema')
 
+	amount = []
+	for amt in get_orders():
+		amount.append(amt["amount"])
+
+
 	lines = []
 	
 	lines.append("Usuarios que utilizan el sistema: {0}".format(commonUserModel.objects.exclude(userType=2).count()))
 	lines.append("")
-	lines.append("Compañias registradas en nuestro sistema : {0}".format(company.objects.all().count()))
+	lines.append("Compañias registradas en nuestro sistema : {0}".format(len(get_companies())))
 	lines.append("")
-	lines.append("Dinero ganado : ${:,.0f}".format(int(money)))
+	lines.append("Dinero ganado : ${:,.0f}".format(int(sum(amount))))
 	lines.append("")
 	lines.append("")
 	lines.append("                                              Informacion de Profesionales")
@@ -45,15 +50,38 @@ def generatePDFGlobal(request):
 	lines.append("")
 
 	professionals = commonUserModel.get_responsables()
+
+	orders=get_orders()
+	ORDER=[]
+
+	for ord in orders:
+		ORDER.append(tuple((ord["id"],ord["userID"],ord["type"],
+							ord["nextPayment"],ord["amount"],ord["employeeID"],
+							ord["dateVisit"],ord["description"],ord["improvement"],
+							ord["edited"])))
+
+	#CHECK EMPLOYEE LOGGED
 	
+	CHECKLISTS= []
+
+	for check in get_checklists():
+		CHECKLISTS.append(tuple((check["id"],check["orderID"],check["title"],check["professionalAssigned"],
+								check["question1"],check["answer1"],check["question2"],check["answer2"],
+								check["question3"],check["answer3"],check["question4"],check["answer4"],
+								check["question5"],check["answer5"])))
+
+
+	
+
+
 	for prof in professionals:
 		
 		lines.append("############################################")
 		lines.append("")
 		lines.append("ID Profesional: {0}".format(prof.pk))
 		lines.append("Nombre Profesional: {0} {1}".format(prof.firstName,prof.lastName))
-		lines.append("Cantidad de ordenes registradas: {0}".format(order.objects.filter(employeeID=prof.pk).count()))
-		lines.append("Cantidad de Capacitaciones registradas: {0}".format(training.objects.filter(professionalAssigned=prof.pk).count()))
+		lines.append("Cantidad de ordenes registradas: {0}".format( len([element for element in ORDER if element[5]==prof.pk])))
+		lines.append("Cantidad de Capacitaciones registradas: {0}".format(len([element for element in CHECKLISTS if element[3]==prof.pk])))
 		lines.append("")
 
 	for line in lines:
@@ -65,6 +93,60 @@ def generatePDFGlobal(request):
 	buf.seek(0)
 
 	return FileResponse(buf, as_attachment=True, filename= "GlobalReport.pdf")
+
+def generatePDFClients(request):
+	# money = re.sub('\D+','',str(order.objects.aggregate(Sum("amount"))))
+	buf = io.BytesIO()
+
+	c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+	textob = c.beginText()
+
+	textob.setTextOrigin(inch, inch)
+	textob.setFont("Times-Roman", 14)
+	c.drawString(240,30,'Reporte global de Clientes')
+
+
+	lines = []
+
+	orders=get_orders()
+	ORDER=[]
+
+	for ord in orders:
+		ORDER.append(tuple((ord["id"],ord["userID"],ord["type"],
+							ord["nextPayment"],ord["amount"],ord["employeeID"],
+							ord["dateVisit"],ord["description"],ord["improvement"],
+							ord["edited"])))
+
+
+
+	clients = commonUserModel.get_clients()
+
+	for clie in clients:
+		
+		lines.append("############################################")
+		lines.append("")
+		lines.append("ID Cliente: {0}".format(clie.pk))
+		lines.append("Nombre Cliente: {0} {1}".format(clie.firstName,clie.lastName))
+		lines.append("Rut: {0}".format(clie.rut))
+		lines.append("Numero telefono: {0}".format(clie.phoneNumber))
+		lines.append("Cantidad de ordenes registradas: {0}".format( len([element for element in ORDER if element[1]==clie.pk])))
+		lines.append("")
+
+	for line in lines:
+		textob.textLine(line)
+
+
+
+
+
+
+	c.drawText(textob)
+	c.showPage()
+	c.save()
+	buf.seek(0)
+
+	return FileResponse(buf, as_attachment=True, filename= "ClientReport.pdf")
 
 
 def update_profile(request): 
@@ -99,19 +181,6 @@ def update_profile(request):
 
 	return render(request=request, template_name="profile.html",context=context)	
 
-def show_clientPayment(request):
-
-	listOrder = order.get_all_orders()
-
-	for aux in listOrder:
-
-		userInstance = commonUserModel.getUserExtended(aux.userID)
-		aux.userID = userInstance.firstName+' '+userInstance.lastName
-
-	context={}
-	context['queryset'] = listOrder
-
-	return render(request,template_name="show-client-payment.html",context=context)
 
 ####################### REGISTROS##############################
 def register_company(request):
@@ -233,6 +302,32 @@ def submit_checklist(request):
 
 
 ####################### SHOW INFO ##############################
+
+def show_clientPayment(request):
+
+	orders=get_orders()
+	ORDER=[]
+
+	for ord in orders:
+		ORDER.append(tuple((ord["id"],ord["userID"],ord["type"],
+							ord["nextPayment"],ord["amount"],ord["employeeID"],
+							ord["dateVisit"],ord["description"],ord["improvement"],
+							ord["edited"])))
+	res = []
+
+	for i in ORDER:
+		val = list(i)
+		clientInstance = commonUserModel.getUserExtended(val[1])
+		val[1] = clientInstance.firstName+' '+clientInstance.lastName
+
+		res.append(tuple(val))
+
+			
+	context={}
+	context['queryset'] = res
+
+	return render(request,template_name="show-client-payment.html",context=context)
+
 def show_order(request):
 	idUser = request.user.id
 	
@@ -247,10 +342,11 @@ def show_order(request):
 
 	#CHECK EMPLOYEE LOGGED
 	orderList = [element for element in ORDER if element[5]==idUser]
+	
 	if not orderList:
 		#CLIENT LOGGED
-		orderList = [element for element in ORDER if element[0]==idUser]
-
+		orderList = [element for element in ORDER if element[1]==idUser]
+	
 	res = []
 
 	for i in orderList:

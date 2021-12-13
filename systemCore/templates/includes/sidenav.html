@@ -43,6 +43,12 @@
                 <span class="nav-link-text">Generar PDF Global</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'generatePDF_client' %}">
+                <i class="ni ni-book-bookmark text-red"></i>
+                <span class="nav-link-text">Generar PDF Clientes</span>
+              </a>
+            </li>
           {% endif %}   
           {% if request.user.extend.userType == 1 %}
           <li class="nav-item">

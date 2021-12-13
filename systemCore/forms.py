@@ -69,7 +69,7 @@ class orderForm(forms.Form):
         self.fields['dateVisit'].initial = '1970-01-01'
         self.fields['improvement'].initial = '--'
         self.fields['edited'].initial = 0
-        self.fields['description'].initial = 'funco'
+        self.fields['description'].initial = ''
         
     userID = forms.IntegerField(widget=forms.Select(attrs={'class': 'form-control form control-alternative'},choices=CLIENT_CHOICES), label="ID Usuario")
     type= forms.IntegerField(widget=forms.Select(attrs={'class': 'form-control form control-alternative'},choices=ORDER_TYPES), label="Tipo orden")

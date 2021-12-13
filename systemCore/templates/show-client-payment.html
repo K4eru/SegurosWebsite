@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block title %} Show Checklist {% endblock title %}
-
+{% load humanize %}
 {% block content %}
 
 
@@ -30,16 +30,16 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col" class="sort" >ID Orden</th>
-                <th scope="col" class="sort" >ID Orden</th>
+                <th scope="col" class="sort" >ID Usuario</th>
                 <th scope="col" class="sort" >Monto a pagar</th>              
               </tr>
             </thead>
             <tbody class="list">
               {% for instance in queryset %}                    
                 <tr>
-                  <td>{{instance.pk}}</td>
-                  <td>{{ instance.userID }}</td>
-                  <td>{{ instance.amount }}</td>                  
+                  <td>{{instance.0}}</td>
+                  <td>{{ instance.1 }}</td>
+                  <td>{{ instance.4 |intcomma}}</td>                  
                 </tr>
                {% endfor %}
                 
