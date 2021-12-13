@@ -176,8 +176,9 @@
                     </tr>
                   </thead>
                   <tbody class="list">
+                    {% for instance in ordersAssigned %}
                     <tr>
-                      {% for instance in ordersAssigned %}
+                      
                         <td>{{instance.pk}}</td>
                         <td>
                           {% if instance.type == 1 %}
@@ -187,16 +188,19 @@
                           {% endif %}
                         </td>
                         <td>{{instance.dateVisit}}</td>
-                      {% endfor %}
+                     
                       
                     </tr>
+                    {% endfor %}
+                    {% for instance in trainingAssigned %}
                     <tr>
-                      {% for instance in trainingAssigned %}
+                      
                       <td>{{instance.pk}}</td>
                       <td>Capacitacion</td>
                       <td>{{instance.date}}</td>
-                      {% endfor %}
+                      
                     </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>

@@ -3,11 +3,12 @@ from django.db.models.aggregates import Count, Sum
 from django.shortcuts import  render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from .forms import companyForm, mainUserForm, userForm, UserLoginForm
+from .forms import  mainUserForm, userForm, UserLoginForm  
+from systemCore.services import get_companies
 from . import models
-from systemAuth.models import commonUserModel , order , company, training
-from django.contrib.auth.models import User
+from systemAuth.models import  commonUserModel 
 from django.contrib.auth.decorators import login_required
+import requests
 
 @login_required(login_url='request_login')
 def home(request):
@@ -16,44 +17,44 @@ def home(request):
 	#DATA FOR ADDONS IN ADMIN INDEX LUL
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	context['totalUsers'] = commonUserModel.objects.count()
-	context['totalOrders'] = order.objects.count()
-	context['totalCompanys'] = company.objects.count()
-	context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
+	#context['totalOrders'] = order.objects.count()
+	# context['totalCompanys'] = company.objects.count()
+	#context['moneyEarned'] = order.objects.aggregate(Sum("amount"))
 
 	#DATA FOR GRAPHICS LUL
-	companies = company.objects.all()
-	companies2 = commonUserModel.get_companys()
+	# companies = company.objects.all()
+	#companies2 = commonUserModel.get_companys()
 	clientlist = commonUserModel.get_clients()
 	clientOrders = []
 	clientName = []
 	
 	for client in clientlist:
-		clientOrders.append(order.objects.filter(userID=client.user.id).count())
+		#clientOrders.append(order.objects.filter(userID=client.user.id).count())
 		clientName.append("{0} {1} - {2}".format(client.firstName,client.lastName, client.company))
 	
-	#context['ordercliente'] = clientlist
-	companyNames =[]
-	companyCount = []
-	for aux in companies:
-		companyNames.append(aux.name)
-		companyCount.append(commonUserModel.objects.filter(company=aux.id).count())
+	
+	# companyNames =[]
+	# companyCount = []
+	# for aux in companies:
+	# 	companyNames.append(aux.name)
+	# 	companyCount.append(commonUserModel.objects.filter(company=aux.id).count())
 
-	context['companyNames'] = companyNames
-	context['companyCount'] = companyCount
+	# context['companyNames'] = companyNames
+	# context['companyCount'] = companyCount
 	context['clientOrders'] = clientOrders
 	context['clientNames'] = clientName
 
     #DATA FOR PROFESSIONAL HEHE
-	context['ordersAssigned'] = order.objects.filter(employeeID = request.user.id)
-	context['trainingAssigned'] = training.objects.filter(professionalAssigned = request.user.id)
+	#context['ordersAssigned'] = order.objects.filter(employeeID = request.user.id)
+	#context['trainingAssigned'] = training.objects.filter(professionalAssigned = request.user.id)
 
 	#DATA FOR CLIENT LMAO
-	listOrder = order.objects.filter(userID = request.user.id)
-	for aux in listOrder:
-		profInstance = commonUserModel.getUserExtended(aux.employeeID)
-		aux.employeeID = profInstance.firstName+' '+profInstance.lastName
+	# listOrder = order.objects.filter(userID = request.user.id)
+	# for aux in listOrder:
+	# 	profInstance = commonUserModel.getUserExtended(aux.employeeID)
+	# 	aux.employeeID = profInstance.firstName+' '+profInstance.lastName
 
-	context['clientAssignedOrder'] = listOrder
+	# context['clientAssignedOrder'] = listOrder
 	return render(request, template_name= "index.html", context=context)
 
 
@@ -82,6 +83,7 @@ def request_login(request):
 
 
 def register_user(request):
+	
 	if request.user.extend.userType != 2:
 		return redirect('request_login')
 		
@@ -102,39 +104,18 @@ def register_user(request):
 				userType = form.cleaned_data['userType'], company = form.cleaned_data['company'])
 				userextended.save()
 
-				
-				
 				return redirect('registerUser')
 			else:
-				
 				return redirect('registerUser')
-	
+
+
 	context = {}
 	context['mainForm'] = mainUserForm
-	context['form'] = userForm(initial={})
+	context['form'] = userForm()
+	
 	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
 	return render(request, template_name='auth/register.html', context= context)
 
 
-def register_company(request):
-	if request.user.extend.userType != 2:
-		return redirect('request_login')
-		
-	if request.method == "POST":
-		if "registerCompany" in request.POST:
-			form = companyForm(request.POST)
-			if form.is_valid():
-				company = models.company(name=form.cleaned_data['name'],description=form.cleaned_data['description'],address=form.cleaned_data['address'])
-				company.save()
-				
-				return redirect('registerCompany')
-			else:
-				
-				return redirect('registerCompany')
 
-
-	context = {}
-	context['form'] = companyForm
-	context['userExtend'] = commonUserModel.getUserExtended(request.user.id)
-	return render(request, template_name='auth/registerCompany.html', context= context)
 		

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from systemCore.services import get_companies
 
 CLIENT_TYPES = ((0, 'Cliente' ),
                 (1, 'Profesional'),
@@ -10,7 +11,7 @@ ORDER_TYPES = ((0, 'Normal' ),
 
 class commonUserModel(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name="extend")
-    company = models.ForeignKey('company', on_delete = models.CASCADE)
+    company = models.IntegerField()
     firstName = models.CharField(max_length=30)
     lastName = models.CharField(max_length=30)
     phoneNumber = models.CharField(max_length=20)
@@ -35,75 +36,3 @@ class commonUserModel(models.Model):
 
     def get_UsersNotAdmin():
         return commonUserModel.objects.exclude(userType = 2)
-    
-   
-class company(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    # responsable = models.IntegerField()
-    address = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-    def get_all_companies():
-        return company.objects.all()
-    
-    def get_company(id):
-        return company.objects.get(id=id)
-
-class order(models.Model):
-    userID = models.IntegerField()
-    type =  models.IntegerField(choices=ORDER_TYPES, default=0)
-    nextPayment = models.DateField(default='1970-01-01')
-    amount = models.IntegerField(default=0)
-    employeeID = models.IntegerField()
-    dateVisit = models.DateField(default='1970-01-01')
-    description = models.TextField(blank=True)
-    improvement = models.TextField(blank=True)
-    edited = models.IntegerField(default=0)
-
-    def __str__(self):
-        return str(self.id)
-
-    def get_all_orders():
-        return order.objects.all()
-
-    def get_order(id):
-        return order.objects.get(id = id)
-
-    # def getTotalAmount():
-    #     return order.objects.aggregate(total=sum('amount'))
-
-
-class training(models.Model):
-    name=models.CharField(max_length=100)
-    professionalAssigned = models.IntegerField()
-    client1 = models.IntegerField(blank= False)
-    client2 = models.IntegerField(blank= False)
-    client3 = models.IntegerField(blank= False)
-    date = models.DateField()
-
-    def __str__(self):
-        return self.name
-
-class checklist(models.Model):
-    orderID = models.OneToOneField(order, on_delete = models.CASCADE, related_name="extend")
-    title= models.CharField(max_length=100)
-    professionalAssigned = models.IntegerField()
-    question1 = models.CharField(max_length=100,blank=True)
-    answer1 = models.CharField(max_length=100,blank=True)
-    question2 = models.CharField(max_length=100,blank=True)
-    answer2 = models.CharField(max_length=100,blank=True)
-    question3 = models.CharField(max_length=100,blank=True)
-    answer3 = models.CharField(max_length=100,blank=True)
-    question4 = models.CharField(max_length=100,blank=True)
-    answer4 = models.CharField(max_length=100,blank=True)
-    question5 = models.CharField(max_length=100,blank=True)
-    answer5 = models.CharField(max_length=100,blank=True)
-
-    def __str__(self):
-        return self.title
-
-    def get_checklist(id):
-        return checklist.objects.get(id = id)

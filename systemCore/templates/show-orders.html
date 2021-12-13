@@ -46,44 +46,44 @@
             <tbody class="list">
               {% for instance in queryset %}                    
                 <tr>
-                  <td>{{instance.pk}}</td>
-                  <td>{{ instance.userID }}</td>
+                  <td>{{instance.0}}</td>
+                  <td>{{ instance.1 }}</td>
                   <td>
-                    {% if instance.type == 1 %}
+                    {% if instance.2 == 1 %}
                         Especial
                     {% else %}
                         Normal
                     {% endif %}
                   </td>
                   <td>
-                    {% if instance.edited == 1  %}
-                        {{ instance.nextPayment }}
+                    {% if instance.9 == 1  %}
+                        {{ instance.3 }}
                     {% else %}
                         N/A
                     {%endif%}
                   </td>
                   <td>
-                    {% if instance.edited == 1  %}
-                      ${{ instance.amount |intcomma }}
+                    {% if instance.9 == 1  %}
+                      ${{ instance.4 |intcomma }}
                     {% else %}
                       N/A
                     {%endif%}
                   
                   </td>
-                  <td>{{ instance.employeeID }}</td>
+                  <td>{{ instance.5 }}</td>
                   <td>
-                    {% if instance.edited == 1  %}
-                      {{ instance.dateVisit }}
+                    {% if instance.9 == 1  %}
+                      {{ instance.6 }}
                     {% else %}
                       N/A
                   {%endif%}
                     
                   </td>
-                  <td>{{ instance.description }}</td>
-                  <td>{{ instance.improvement }}</td>
+                  <td>{{ instance.7 }}</td>
+                  <td>{{ instance.8 }}</td>
                   {% if request.user.extend.userType == 1   %}
                   <td>
-                    <a class="nav-link" href="{% url 'edit_order' order_pk=instance.pk %}">
+                    <a class="nav-link" href="{% url 'edit_order' order_pk=instance.0 %}">
                     <i class="ni ni-single-02 text-yellow"></i>
                   </td>
                   {%endif%}

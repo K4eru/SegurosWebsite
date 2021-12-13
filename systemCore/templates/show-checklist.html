@@ -41,13 +41,13 @@
             <tbody class="list">
               {% for instance in queryset %}                    
                 <tr>
-                  <td>{{instance.pk}}</td>
-                  <td>{{ instance.orderID }}</td>
-                  <td>{{ instance.title }}</td>
-                  <td>{{ instance.professionalAssigned }}</td>              
+                  <td>{{instance.0}}</td>
+                  <td>{{ instance.1 }}</td>
+                  <td>{{ instance.2 }}</td>
+                  <td>{{ instance.3 }}</td>              
                     {% if request.user.extend.userType == 1   %}
                       <td>
-                        <a class="nav-link" href="{% url 'edit_checklist' checklist_pk=instance.pk %}">
+                        <a class="nav-link" href="{% url 'edit_checklist' checklist_pk=instance.0 %}">
                         <i class="ni ni-single-02 text-yellow"></i>
                       </td>
                     {%endif%}
